@@ -1,0 +1,2 @@
+class ShipmentStopAccessorial < ApplicationRecord
+end

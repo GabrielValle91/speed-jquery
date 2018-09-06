@@ -1,0 +1,2 @@
+class ShipmentChargesController < ApplicationController
+end

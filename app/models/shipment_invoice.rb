@@ -1,0 +1,2 @@
+class ShipmentInvoice < ApplicationRecord
+end

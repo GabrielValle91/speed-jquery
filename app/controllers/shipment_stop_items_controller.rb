@@ -1,0 +1,2 @@
+class ShipmentStopItemsController < ApplicationController
+end
