@@ -8,11 +8,11 @@ workers Integer(ENV['WEB_CONCURRENCY'] || 2)
 threads_count = Integer(ENV['RAILS_MAX_THREADS'] || 5)
 threads threads_count, threads_count
 
-preload_app!
+
 
 # Specifies the `port` that Puma will listen on to receive requests; default is 3000.
 #
-port        ENV.fetch("PORT") { 3000 }
+
 
 rackup      DefaultRackup
 port        ENV['PORT']     || 3000
@@ -23,6 +23,6 @@ on_worker_boot do
   # See: https://devcenter.heroku.com/articles/deploying-rails-applications-with-the-puma-web-server#on-worker-boot
   ActiveRecord::Base.establish_connection
 end
-
+preload_app!
 # Allow puma to be restarted by `rails restart` command.
 plugin :tmp_restart
