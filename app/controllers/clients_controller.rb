@@ -5,6 +5,7 @@ class ClientsController < ApplicationController
 
   def index
     @clients = Client.all
+    render :index, layout: false
   end
 
   def show
