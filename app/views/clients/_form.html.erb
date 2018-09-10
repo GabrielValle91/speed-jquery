@@ -1,0 +1,64 @@
+<%= form_for client, html: {class:"form-horizontal"} do |f| %>
+  <% if flash[:notice] %>
+    <% flash.each do |name, msg| %>
+      <div class="alert alert-danger alert-dismissible fade in">
+      <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+      <%= msg %>
+      </div>
+    <% end %>
+    <br>
+  <% end %>
+  <div class="form-group-sm">
+    <%= f.label :name, nil, class:"col-sm-1 control-label" %>
+    <div class="col-sm-2">
+      <%= f.text_field :name, class:"form-control" %>
+    </div>
+  </div>
+  <div class="form-group-sm">
+    <%= f.label :qb_name, nil, class:"col-sm-1 control-label" %>
+    <div class="col-sm-2">
+      <%= f.text_field :qb_name, class:"form-control" %>
+    </div>
+  </div>
+  <div class="form-group-sm">
+    <%= f.label :billing_address1, nil, class:"col-sm-1 control-label" %>
+    <div class="col-sm-2">
+      <%= f.text_field :billing_address1, class:"form-control" %>
+    </div>
+  </div>
+  <div class="form-group-sm">
+    <%= f.label :billing_address2, nil, class:"col-sm-1 control-label" %>
+    <div class="col-sm-2">
+      <%= f.text_field :billing_address2, class:"form-control" %>
+    </div>
+  </div>
+  <div class="form-group-sm">
+    <%= f.label :billing_city, nil, class:"col-sm-1 control-label" %>
+    <div class="col-sm-2">
+      <%= f.text_field :billing_city, class:"form-control" %>
+    </div>
+  </div>
+  <div class="form-group-sm">
+    <%= f.label :billing_state, nil, class:"col-sm-1 control-label" %>
+    <div class="col-sm-2">
+      <%= f.text_field :billing_state, class:"form-control" %>
+    </div>
+  </div>
+  <div class="form-group-sm">
+    <%= f.label :billing_zip, nil, class:"col-sm-1 control-label" %>
+    <div class="col-sm-2">
+      <%= f.text_field :billing_zip, class:"form-control" %>
+    </div>
+  </div>
+  <div class="form-group-sm">
+    <%= f.label :billing_email, nil, class:"col-sm-1 control-label" %>
+    <div class="col-sm-2">
+      <%= f.text_field :billing_email, class:"form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-1">
+      <%= f.submit %>
+    </div>
+  </div>
+<% end %>
