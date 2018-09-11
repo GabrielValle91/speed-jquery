@@ -7,6 +7,7 @@
 
     <%= stylesheet_link_tag    'application', media: 'all' %>
     <%= javascript_include_tag 'application' %>
+    <%= javascript_include_tag 'welcome' %>
   </head>
 
   <body>
@@ -21,16 +22,16 @@
           <ul class="navbar-nav mr-auto">
             <li class="nav-item active"><a class="nav-link" href="/home">Home <span class="sr-only">(current)</span></a></li>
             <% if logged_in? %>
-              <li class="nav-item"><a class="nav-link" href="/dispatch">Dispatch</a></li>
-              <li class="nav-item"><a class="nav-link" href="<%= shipments_path %>">Shipments</a></li>
-              <li class="nav-item"><a class="nav-link" href="<%= drivers_path %>">Drivers</a></li>
-              <li class="nav-item"><a class="nav-link" href="<%= clients_path %>">Clients</a></li>
-              <li class="nav-item"><a class="nav-link" href="<%= locations_path %>">Locations</a></li>
-              <li class="nav-item"><a class="nav-link" href="<%= vehicles_path %>">Vehicles</a></li>
-              <li class="nav-item"><a class="nav-link" href="<%= trailers_path %>">Trailers</a></li>
-              <li class="nav-item"><a class="nav-link" href="<%= shipment_invoices_path %>">Invoices</a></li>
-              <li class="nav-item"><a class="nav-link" href="<%= offices_path %>">Offices</a></li>
-              <li class="nav-item"><a class="nav-link" href="<%= users_path %>">Users</a></li>
+              <li class="nav-item" id="dispatchNav" ><a class="nav-link" href="/dispatch">Dispatch</a></li>
+              <li class="nav-item" id="shipmentNav" ><a class="nav-link" href="<%= shipments_path %>">Shipments</a></li>
+              <li class="nav-item" id="driverNav" ><a class="nav-link" href="<%= drivers_path %>">Drivers</a></li>
+              <li class="nav-item" id="clientNav" ><a class="nav-link" href="<%= clients_path %>">Clients</a></li>
+              <li class="nav-item" id="locationNav" ><a class="nav-link" href="<%= locations_path %>">Locations</a></li>
+              <li class="nav-item" id="vehicleNav" ><a class="nav-link" href="<%= vehicles_path %>">Vehicles</a></li>
+              <li class="nav-item" id="trailerNav" ><a class="nav-link" href="<%= trailers_path %>">Trailers</a></li>
+              <li class="nav-item" id="invoiceNav" ><a class="nav-link" href="<%= shipment_invoices_path %>">Invoices</a></li>
+              <li class="nav-item" id="officeNav" ><a class="nav-link" href="<%= offices_path %>">Offices</a></li>
+              <li class="nav-item" id="userNav" ><a class="nav-link" href="<%= users_path %>">Users</a></li>
             <% end %>
           </ul>
           <ul class="nav navbar-nav navbar-right">

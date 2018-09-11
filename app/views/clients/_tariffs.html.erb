@@ -1,0 +1,30 @@
+<div class="col-4 justify-content-start">
+  <h4>Tariffs</h4>
+  <ul class="list-group list-group-flush" id="tariff-list">
+    <li class="list-group-item">Tariff Name - Rate - Min - Max</li>
+    <% client.tariffs.each do |tariff| %>
+      <li class="list-group-item" id="Tariff-<%= tariff.id %>"><%= tariff.name %> - $<%= tariff.rate %> - $<%= tariff.min %> - $<%= tariff.max %></li>
+    <% end %>
+  </ul>
+  <%= form_for newTariff do |f| %>
+    <div class="form-group row col-md-12">
+      <div class="col-md-5">
+        <%= f.label :name, nil, class:"col-md-5 control-label" %>
+        <%= f.text_field :name, class:"form-control form-control-sm" %>
+      </div>
+      <div class="col-md">
+        <%= f.label :rate, nil, class:"col-md control-label" %>
+        <%= f.text_field :rate, class:"form-control form-control-sm" %>
+      </div>
+      <div class="col-md">
+        <%= f.label :min, nil, class:"col-md control-label" %>
+        <%= f.text_field :min, class:"form-control form-control-sm" %>
+      </div>
+      <div class="col-md">
+        <%= f.label :max, nil, class:"col-md control-label" %>
+        <%= f.text_field :max, class:"form-control form-control-sm" %>
+      </div>
+    </div>
+    <%= f.submit data: { disable_with: false }, id:"newTariff" %>
+  <% end %>
+</div>

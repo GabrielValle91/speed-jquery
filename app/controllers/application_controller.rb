@@ -1,6 +1,10 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
-  helper_method :logged_in?, :current_user
+  helper_method :logged_in?, :current_user, :clear_notice
+
+  def clear_notice
+    flash[:notice] = nil
+  end
 
   def logged_in?
     !!current_user

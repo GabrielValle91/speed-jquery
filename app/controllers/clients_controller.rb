@@ -2,29 +2,37 @@ class ClientsController < ApplicationController
   before_action :user_auth
   before_action :make_client, only: [:new]
   before_action :find_client, only: [:show, :edit, :update]
+  before_action :clear_notice
 
   def index
-    @clients = Client.all
-    render :index, layout: false
+    @clients = [] 
+    current_user.offices.each do |office|
+      office.clients.each do |client|
+        @clients << client
+      end
+    end
+    @clients.uniq!
   end
 
   def show
   end
 
   def new
+    
   end
 
   def create
     @client = Client.new(client_params)
     if @client.save
-      redirect_to clients_path
+      redirect_to edit_client_path(@client)
     else
-      flash[:notice] = "#{@client.errors.full_messages}"
-      redirect_to new_client_path
+      flash[:notice] = @client.errors.full_messages
+      render new_client_path
     end
   end
 
   def edit
+    @tariff = Tariff.new
   end
 
   def update
@@ -47,7 +55,7 @@ class ClientsController < ApplicationController
   end
 
   def client_params
-    params.require(:client).permit(:name, :qb_name, :billing_name, :billing_address1, :billing_address2, :billing_city, :billing_state, :billing_zip, :billing_email, :active, office_ids: [])
+    params.require(:client).permit(:name, :qb_name, :billing_name, :billing_address1, :billing_address2, :billing_city, :billing_state, :billing_zip, :billing_email, :net_terms, :active, office_ids: [])
   end
 
   def user_auth

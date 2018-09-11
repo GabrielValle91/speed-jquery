@@ -1,3 +1,14 @@
-<div class="container-fluid">
-  <h1>Client view</h1>
+<%= javascript_include_tag 'clients' %>
+<h1>Client Index Page</h1>
+<a class="btn btn-primary" href="<%= new_client_path %>" role="button">New Client</a>
+<br><br>
+<div class="dropdown">
+  <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    View a Client
+  </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    <% @clients.each do |client| %>
+      <a class="dropdown-item" href="<%=client_path(client)%>"><%= client.name %></a>
+    <% end %>
+  </div>
 </div>
