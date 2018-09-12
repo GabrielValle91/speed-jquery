@@ -15,10 +15,9 @@ class LocationsController < ApplicationController
   end
   
   def create
-    # raise params.inspect
     @location = Location.new(location_params)
     if @location.save
-      redirect_to edit_location_path(@location)
+      redirect_to location_path(@location)
     else
       flash[:notice] = @location.errors.full_messages
       render new_location_path
