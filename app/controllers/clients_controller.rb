@@ -57,10 +57,4 @@ class ClientsController < ApplicationController
   def client_params
     params.require(:client).permit(:name, :qb_name, :billing_name, :billing_address1, :billing_address2, :billing_city, :billing_state, :billing_zip, :billing_email, :net_terms, :active, office_ids: [])
   end
-
-  def user_auth
-    if !logged_in?
-      redirect_to login_url
-    end
-  end
 end

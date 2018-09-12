@@ -1,0 +1,14 @@
+<%= javascript_include_tag 'locations' %>
+<h1>Location Index Page</h1>
+<a class="btn btn-primary" href="<%= new_location_path %>" role="button">New Location</a>
+<br><br>
+<div class="dropdown">
+  <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    View a Location
+  </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    <% @locations.each do |location| %>
+      <a class="dropdown-item" href="<%=location_path(location)%>"><%= location.company_name %></a>
+    <% end %>
+  </div>
+</div>
