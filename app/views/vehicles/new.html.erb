@@ -1,0 +1,6 @@
+<%= javascript_include_tag 'vehicles' %>
+<div class="col-md-12">
+  <%= render partial: 'list' %>
+  <h4>Create a new vehicle</h4>
+  <%= render partial: 'form', locals: {vehicle: @vehicle} %>
+</div>

@@ -1,0 +1,22 @@
+<div class="col-3 justify-content-start">
+  <h4>Rental Periods</h4>
+  <ul class="list-group list-group-flush" id="rental-list">
+    <li class="list-group-item">Rental Start - Rental End</li>
+    <% vehicle.vehicle_rentals.each do |vehicle_rental| %>
+      <li class="list-group-item" id="Rental-<%vehicle_rental.id %>"><%= vehicle_rental.start_date ? beginning_date(vehicle_rental) : '' %> - <%= vehicle_rental.end_date ? ending_date(vehicle_rental) : '' %></li>
+    <% end %>
+  </ul>
+  <%= form_for newRental do |f| %>
+    <div class="form-group row col-md-12">
+      <div class="col-md-6">
+        <%= f.label :start_date, nil, class:"col-md-12 control-label" %>
+        <%= f.date_field :start_date, class:"form-control form-control-sm" %>
+      </div>
+      <div class="col-md">
+        <%= f.label :end_date, nil, class:"col-md control-label" %>
+        <%= f.date_field :end_date, class:"form-control form-control-sm" %>
+      </div>
+    </div>
+    <%= f.submit data: { disable_with: false } %>
+  <% end %>
+</div>

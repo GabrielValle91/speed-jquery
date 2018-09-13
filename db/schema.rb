@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_13_031737) do
+ActiveRecord::Schema.define(version: 2018_09_13_032425) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -90,6 +90,15 @@ ActiveRecord::Schema.define(version: 2018_09_13_031737) do
     t.index ["office_id"], name: "index_office_drivers_on_office_id"
   end
 
+  create_table "office_trailers", force: :cascade do |t|
+    t.bigint "office_id"
+    t.bigint "trailer_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["office_id"], name: "index_office_trailers_on_office_id"
+    t.index ["trailer_id"], name: "index_office_trailers_on_trailer_id"
+  end
+
   create_table "office_users", force: :cascade do |t|
     t.bigint "office_id"
     t.bigint "user_id"
@@ -97,6 +106,15 @@ ActiveRecord::Schema.define(version: 2018_09_13_031737) do
     t.datetime "updated_at", null: false
     t.index ["office_id"], name: "index_office_users_on_office_id"
     t.index ["user_id"], name: "index_office_users_on_user_id"
+  end
+
+  create_table "office_vehicles", force: :cascade do |t|
+    t.bigint "office_id"
+    t.bigint "vehicle_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["office_id"], name: "index_office_vehicles_on_office_id"
+    t.index ["vehicle_id"], name: "index_office_vehicles_on_vehicle_id"
   end
 
   create_table "offices", force: :cascade do |t|

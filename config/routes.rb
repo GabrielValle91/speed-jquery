@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
   resources :teams
   resources :trailers
+  resources :trailer_rentals
   resources :vehicles
+  resources :vehicle_rentals
   resources :shipment_stop_items
   resources :shipment_stop_accessorials
   resources :shipment_stops

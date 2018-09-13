@@ -9,7 +9,6 @@
           </button>
         </div>
       <% end %>
-      <br>
     <% end %>
     <%= f.hidden_field :id %>
     <div class="row col-md-12">
@@ -65,7 +64,7 @@
     </div>
     <h4 class="col-md-12">Offices</h4>
     <div class="form-row col-md-12">
-      <div class="form-group col-md-12">
+      <div class="form-group col-md-12 mx-2">
         <%= f.collection_check_boxes :office_ids, current_user.offices, :id, :name %>
       </div>
     </div>
@@ -75,7 +74,7 @@
       </div>
     </div>
   <% end %>
-  <% if @client.id %>
-    <%= render partial: 'tariffs', locals: {client: @client, newTariff: @tariff} %>
+  <% if client.id %>
+    <%= render partial: 'tariffs', locals: {client: client, newTariff: @tariff} %>
   <% end %>
 </div>

@@ -1,1 +1,16 @@
 <%= javascript_include_tag 'trailers' %>
+<div class="col-md-12">
+  <h1>Trailer Index Page</h1>
+  <a class="btn btn-primary" href="<%= new_trailer_path %>" role="button">New Trailer</a>
+  <br><br>
+  <div class="dropdown">
+    <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      View a Trailer
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+      <% @trailers.each do |trailer| %>
+        <a class="dropdown-item" href="<%=trailer_path(trailer)%>"><%= trailer.trailer_number %></a>
+      <% end %>
+    </div>
+  </div>
+</div>

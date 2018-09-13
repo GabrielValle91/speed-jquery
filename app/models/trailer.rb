@@ -4,4 +4,5 @@ class Trailer < ApplicationRecord
   has_many :trailer_rentals
   has_many :office_trailers
   has_many :offices, through: :office_trailers
+  TRAILERTYPES = ["32ft liftgate", "48ft dry van", "48ft flatbed", "48ft liftgate", "53ft dry van", "53ft flatbed", "53ft liftgate"]
 end

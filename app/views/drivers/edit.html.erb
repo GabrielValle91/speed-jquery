@@ -1,4 +1,6 @@
 <%= javascript_include_tag 'drivers' %>
-<%= render partial: 'list' %>
-<h2>Edit Driver Details</h2>
-<%= render partial: 'form', locals: {driver: @driver} %>
+<div class="col-md-12">
+  <%= render partial: 'list' %>
+  <h2>Edit Driver Details</h2>
+  <%= render partial: 'form', locals: {driver: @driver} %>
+</div>

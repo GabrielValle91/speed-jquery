@@ -25,10 +25,4 @@ class TariffsController < ApplicationController
   def tariff_params
     params.require(:tariff).permit(:name, :rate, :min, :max, :client_id)
   end
-
-  def user_auth
-    if !logged_in?
-      redirect_to login_url
-    end
-  end
 end

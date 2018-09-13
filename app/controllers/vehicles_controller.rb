@@ -6,13 +6,6 @@ class VehiclesController < ApplicationController
 
   def index
     @vehicles = Vehicle.all
-    # @clients = [] 
-    # current_user.offices.each do |office|
-    #   office.clients.each do |client|
-    #     @clients << client
-    #   end
-    # end
-    # @clients.uniq!
   end
 
   def show
@@ -33,6 +26,7 @@ class VehiclesController < ApplicationController
   end
 
   def edit
+    @rental = VehicleRental.new
   end
 
   def update
@@ -55,6 +49,6 @@ class VehiclesController < ApplicationController
   end
 
   def vehicle_params
-    params.require(:vehicle).permit(:vehicle_number, :vehicle_owner, :active, :vehicle_type)
+    params.require(:vehicle).permit(:vehicle_number, :vehicle_owner, :vehicle_type, office_ids: [])
   end
 end

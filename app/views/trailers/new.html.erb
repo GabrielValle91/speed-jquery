@@ -1,0 +1,6 @@
+<%= javascript_include_tag 'trailers' %>
+<div class="col-md-12">
+  <%= render partial: 'list' %>
+  <h4>Create a new trailer</h4>
+  <%= render partial: 'form', locals: {trailer: @trailer} %>
+</div>

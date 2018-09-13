@@ -5,6 +5,31 @@ reClass = () => {
   $('#trailerNav').addClass('active'); 
 }
 
+rentalSubmit = () => {
+  $("#new_trailer_rental").on('submit', function(e){
+    e.preventDefault();
+    let trailerId = $("#trailer_id").val();
+    let authToken = $("#new_trailer_rental").children("input[name='authenticity_token']").val();
+    let rentalData = {
+      'authenticity_token': authToken,
+      'trailer_rental': {
+        'trailer_id': trailerId,
+        'start_date': $("#trailer_rental_start_date").val(),
+        'end_date': $("#trailer_rental_end_date").val(),
+      }
+    }
+    let url = this.action + ".json";
+    $.post(url, rentalData, function(rental){
+      let newLi = `<li class="list-group-item" id="Rental-${rental.id}">${rental.start_date} - ${rental.end_date}</li>`
+      $("#rental-list").append(newLi)
+    })
+  })
+}
+
+addListeners = () => {
+  rentalSubmit();
+}
+
 $(function() {
   reClass();
   addListeners();

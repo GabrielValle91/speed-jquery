@@ -34,7 +34,7 @@
       <div class="form-row">
         <div class="form-group col-md-12">
           <%= f.label :default_vehicle_id, value="Default Vehicle", class:"col-md-12 control-label" %>
-          <%= f.select :default_vehicle_id, Vehicle.all, {include_blank: true}, class:"form-control form-control-sm" %>
+          <%= f.collection_select :default_vehicle_id, Vehicle.all, :id, :vehicle_number, {include_blank: true}, class:"form-control form-control-sm" %>
         </div>
         </div>
       </div>

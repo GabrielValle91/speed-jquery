@@ -3,5 +3,6 @@ class Vehicle < ApplicationRecord
   has_many :shipment_stops
   has_many :vehicle_rentals
   has_many :office_vehicles
-  has_many :vehicles, through: :office_vehicles
+  has_many :offices, through: :office_vehicles
+  VEHICLETYPES = ["Tractor", "Bobtail"]
 end

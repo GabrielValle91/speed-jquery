@@ -1,0 +1,51 @@
+<div class="row">
+  <%= form_for vehicle do |f| %>
+    <% if flash[:notice] %>
+      <% flash[:notice].each do |msg| %>
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+          <%= msg %>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      <% end %>
+    <% end %>
+    <%= f.hidden_field :id %>
+    <div class="row col-auto">
+      <div class="col-auto">
+        <div class="form-row">
+          <div class="form-group col-auto">
+            <%= f.label :vehicle_number, value="Vehicle Number (appears in dropdowns)", class:"col-auto control-label" %>
+            <%= f.text_field :vehicle_number, class:"form-control form-control-sm" %>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-12">
+            <%= f.label :vehicle_owner, nil, class:"col-md-12 control-label" %>
+            <%= f.text_field :vehicle_owner, class:"form-control form-control-sm" %>
+          </div>  
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-12">
+            <%= f.label :vehicle_type, nil, class:"col-md-12 control-label" %>
+            <%= f.select :vehicle_type, Vehicle::VEHICLETYPES, {include_blank: true}, class:"form-control form-control-sm" %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <h4 class="col-md-12">Offices</h4>
+    <div class="form-row col-md-12">
+      <div class="form-group col-md-12 mx-2">
+        <%= f.collection_check_boxes :office_ids, current_user.offices, :id, :name %>
+      </div>
+    </div>
+    <div class="form-group row col-md-1">
+      <div class="form-group col-md-12">
+        <%= f.submit %>
+      </div>
+    </div>
+  <% end %>
+  <% if vehicle.id %>
+    <%= render partial: 'rentals', locals: {vehicle: vehicle, newRental: @rental} %>
+  <% end %>
+</div>

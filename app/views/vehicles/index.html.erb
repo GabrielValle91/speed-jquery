@@ -1,1 +1,16 @@
 <%= javascript_include_tag 'vehicles' %>
+<div class="col-md-12">
+  <h1>Vehicle Index Page</h1>
+  <a class="btn btn-primary" href="<%= new_vehicle_path %>" role="button">New Vehicle</a>
+  <br><br>
+  <div class="dropdown">
+    <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      View a Vehicle
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+      <% @vehicles.each do |vehicle| %>
+        <a class="dropdown-item" href="<%=vehicle_path(vehicle)%>"><%= vehicle.vehicle_number %></a>
+      <% end %>
+    </div>
+  </div>
+</div>
