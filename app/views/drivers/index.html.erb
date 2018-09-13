@@ -1,15 +1,15 @@
-<%= javascript_include_tag 'clients' %>
+<%= javascript_include_tag 'drivers' %>
 <div class="col-md-12">
-  <h1>Client Index Page</h1>
-  <a class="btn btn-primary" href="<%= new_client_path %>" role="button">New Client</a>
+  <h1>Driver Index Page</h1>
+  <a class="btn btn-primary" href="<%= new_driver_path %>" role="button">New Driver</a>
   <br><br>
   <div class="dropdown">
     <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      View a Client
+      View a Driver
     </button>
     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-      <% @clients.each do |client| %>
-        <a class="dropdown-item" href="<%=client_path(client)%>"><%= client.name %></a>
+      <% @drivers.each do |driver| %>
+        <a class="dropdown-item" href="<%=driver_path(driver)%>"><%= driver.name %></a>
       <% end %>
     </div>
   </div>

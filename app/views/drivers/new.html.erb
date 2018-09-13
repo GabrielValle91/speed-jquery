@@ -1,0 +1,6 @@
+<%= javascript_include_tag 'drivers' %>
+<div class="col-md-12">
+  <%= render partial: 'list' %>
+  <h4>Create a new driver</h4>
+  <%= render partial: 'form', locals: {driver: @driver} %>
+</div>

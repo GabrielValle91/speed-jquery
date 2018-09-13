@@ -1,4 +1,6 @@
 <%= javascript_include_tag 'clients' %>
-<%= render partial: 'list' %>
-<h4>Create a new client</h4>
-<%= render partial: 'form', locals: {client: @client} %>
+<div class="col-md-12">
+  <%= render partial: 'list' %>
+  <h4>Create a new client</h4>
+  <%= render partial: 'form', locals: {client: @client} %>
+</div>

@@ -1,0 +1,24 @@
+<%= javascript_include_tag 'drivers' %>
+<div class="container-fluid">
+  <%= render partial: 'list' %>
+  <br>
+  <%= link_to "Edit driver details", edit_driver_path(@driver) %>
+  <div class="row">
+    <div class="col-3 justify-content-start border border-dark">
+      <h4>Name: <%= @driver.name %></h4>
+      <p>Type: <%= @driver.employment_type %></p>
+      <p>License: <%= @driver.license %></p>
+      <p>Default Vehicle: <%= @vehicle %></p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-3 justify-content-start border border-dark">
+      <h4>Active Offices</h4>
+      <ul>
+        <% @driver.offices.each do |office| %>
+          <li><%= office.name %>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>

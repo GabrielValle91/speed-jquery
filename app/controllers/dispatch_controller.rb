@@ -1,0 +1,3 @@
+class DispatchController < ApplicationController
+
+end
