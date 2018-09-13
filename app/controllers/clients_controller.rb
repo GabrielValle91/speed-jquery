@@ -5,13 +5,14 @@ class ClientsController < ApplicationController
   before_action :clear_notice
 
   def index
-    @clients = [] 
-    current_user.offices.each do |office|
-      office.clients.each do |client|
-        @clients << client
-      end
-    end
-    @clients.uniq!
+    @clients = Client.all
+    # @clients = [] 
+    # current_user.offices.each do |office|
+    #   office.clients.each do |client|
+    #     @clients << client
+    #   end
+    # end
+    # @clients.uniq!
   end
 
   def show

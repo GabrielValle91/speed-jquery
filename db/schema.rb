@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_10_213158) do
+ActiveRecord::Schema.define(version: 2018_09_13_031737) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,7 +24,6 @@ ActiveRecord::Schema.define(version: 2018_09_10_213158) do
     t.string "billing_state"
     t.string "billing_zip"
     t.string "billing_email"
-    t.boolean "active"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "net_terms"
@@ -40,7 +39,6 @@ ActiveRecord::Schema.define(version: 2018_09_10_213158) do
 
   create_table "drivers", force: :cascade do |t|
     t.string "name"
-    t.boolean "active"
     t.string "employment_type"
     t.string "license"
     t.string "default_vehicle_id"
@@ -232,6 +230,15 @@ ActiveRecord::Schema.define(version: 2018_09_10_213158) do
     t.integer "office_id"
   end
 
+  create_table "trailer_rentals", force: :cascade do |t|
+    t.bigint "trailer_id"
+    t.date "start_date"
+    t.date "end_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["trailer_id"], name: "index_trailer_rentals_on_trailer_id"
+  end
+
   create_table "trailers", force: :cascade do |t|
     t.string "trailer_number"
     t.string "trailer_owner"
@@ -248,6 +255,15 @@ ActiveRecord::Schema.define(version: 2018_09_10_213158) do
     t.boolean "active"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "vehicle_rentals", force: :cascade do |t|
+    t.bigint "vehicle_id"
+    t.date "start_date"
+    t.date "end_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["vehicle_id"], name: "index_vehicle_rentals_on_vehicle_id"
   end
 
   create_table "vehicles", force: :cascade do |t|
