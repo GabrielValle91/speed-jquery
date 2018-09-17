@@ -1,0 +1,6 @@
+$('#shipment_stop_info').append("<%= j render(partial: 'stops', locals: {shipment_stop: @shipment_stop}) %>");
+
+let stopNum = $("#shipment_stop_info").children().last().children().first().first().children().first()[0].firstElementChild.firstElementChild.lastElementChild.innerHTML;
+let stopId = $("#shipment_stop_info").children().last().children().first().first().children().first()[0].firstElementChild.lastElementChild.value;
+let shipStop = new ShipmentStop(stopNum, stopId);
+shipStop.assignListeners();

@@ -1,0 +1,6 @@
+<%= javascript_include_tag 'shipments' %>
+<div class="col-md-12">
+  <%= render partial: 'list' %>
+  <h4>Create a new shipment</h4>
+  <%= render partial: 'form', locals: {shipment: @shipment} %>
+</div>

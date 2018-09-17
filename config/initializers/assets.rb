@@ -18,6 +18,7 @@ Rails.application.config.assets.precompile += %w( trailers.js )
 Rails.application.config.assets.precompile += %w( invoices.js )
 Rails.application.config.assets.precompile += %w( offices.js )
 Rails.application.config.assets.precompile += %w( users.js )
+Rails.application.config.assets.precompile += %w( shipment_stops.js )
 
 # Precompile additional assets.
 # application.js, application.css, and all non-JS/CSS in the app/assets

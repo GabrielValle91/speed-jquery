@@ -3,6 +3,10 @@ reClass = () => {
   $('#dispatchNav').addClass('active'); 
 }
 
+addListeners = () => {
+  
+}
+
 $(function() {
   reClass();
   addListeners();

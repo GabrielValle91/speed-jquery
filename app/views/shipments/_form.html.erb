@@ -1,0 +1,120 @@
+<%= form_for shipment do |f| %>
+  <% if flash[:notice] %>
+      <% flash[:notice].each do |msg| %>
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+          <%= msg %>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      <% end %>
+    <% end %>
+    <%= f.hidden_field :id %>
+    <div id="accordion">
+      <div class="card">
+        <div class="card-header" id="headingShipmentInfo">
+          <h5 class="mb-0">
+            <button class="btn btn-link" data-toggle="collapse" data-target="#collapseShipmentInfo" aria-expanded="true" aria-controls="collapseShipmentInfo">
+              Shipment Info
+            </button>
+          </h5>
+        </div>
+        <div id="collapseShipmentInfo" class="collapse show" aria-labelledby="headingShipmentInfo" data-parent="#accordion">
+          <div class="card-body">
+            <div class="form-row">
+              <div class="form-group col-md-2">
+                <%= f.label :client_id, nil, class:"col-md-12 control-label" %>
+                <%= f.collection_select :client_id, current_office.clients, :id, :name, {include_blank: true}, class:"form-control form-control-sm" %>
+              </div>
+              <div class="form-group col-md-2">
+                <%= f.label :reference, nil, class:"col-md-12 control-label" %>
+                <%= f.text_field :reference, class:"form-control form-control-sm" %>
+              </div>
+              <div class="form-group col-md-2">
+                <% if shipment.client %>
+                  <%= f.label :tariff, nil, class:"col-md-12 control-label"%>
+                  <select class="form-control form-control-sm">
+                    <option></option>
+                    <% shipment.client.tariffs.each do |tariff| %>
+                      <option <%= 'selected' if shipment.tariff.id == tariff.id %>><%= tariff.name %></option>
+                    <% end %>
+                  </select>
+                <% end %>
+              </div>
+              <div class="form-group col-md-1">
+              </div>
+              <div class="form-group col-md-1.75">
+                <%= f.label :shipment_status, nil, class:"col-md-12 control-label" %>
+                <%= f.select :shipment_status, Shipment::SHIPMENTSTATUS, {include_blank: true}, class:"form-control form-control-sm" %>
+              </div>
+              <div class="form-group col-md-1.25">
+                <%= f.label :invoice_date, nil, class:"col-md-12 control-label" %>
+                <%= f.date_field :invoice_date, class:"form-control form-control-sm" %>
+              </div>
+              <div class="form-group col-md-1">
+              </div>
+              <div class="form-group col-md-1">
+                <%= f.label :office_id, nil, class:"col-md-12 control-label" %>
+                <%= f.collection_select :office_id, current_user.offices, :id, :name, {include_blank: false}, class:"form-control form-control-sm" %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Shipment Stop Section -->
+      <div class="card">
+        <div class="card-header" id="headingShipmentStopInfo">
+          <h5 class="mb-0">
+            <button class="btn btn-link" data-toggle="collapse" data-target="#collapseShipmentStopInfo" aria-expanded="false" aria-controls="collapseShipmentStopInfo">
+              Shipment Stop Info
+            </button>
+          </h5>
+        </div>
+        <div id="collapseShipmentStopInfo" class="collapse" aria-labelledby="headingShipmentStopInfo" data-parent="#accordion">
+          <div class="card-body">
+            <div id="shipment_stop_info" class="row col-md-12">
+              <% @shipment_stops.each do |shipment_stop| %>
+                <%= render partial: "stops", locals: {shipment_stop: shipment_stop} %>
+              <% end %>
+              </div>
+            <%= link_to "New Stop", shipment_newstop_path(shipment, format: :js), remote: true, class:"btn btn-info", id:"new_stop" %>
+          </div>
+        </div>
+      </div>
+      <!-- Charges/Costs Section -->
+      <div class="card">
+        <div class="card-header" id="headingChargeCostInfo">
+          <h5 class="mb-0">
+            <button class="btn btn-link" data-toggle="collapse" data-target="#collapseChargeCostInfo" aria-expanded="false" aria-controls="collapseChargeCostInfo">
+              Charges/Costs Info
+            </button>
+          </h5>
+        </div>
+        <div id="collapseChargeCostInfo" class="collapse" aria-labelledby="headingChargeCostInfo" data-parent="#accordion">
+          <div class="card-body">
+            <div class="form-row">
+              Charges/Costs Info
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Invoicing Section -->
+      <div class="card">
+        <div class="card-header" id="headingInvoiceInfo">
+          <h5 class="mb-0">
+            <button class="btn btn-link" data-toggle="collapse" data-target="#collapseInvoiceInfo" aria-expanded="false" aria-controls="collapseInvoiceInfo">
+              Invoicing Info
+            </button>
+          </h5>
+        </div>
+        <div id="collapseInvoiceInfo" class="collapse" aria-labelledby="headingInvoiceInfo" data-parent="#accordion">
+          <div class="card-body">
+            <div class="form-row">
+              Invoicing Info
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <%= f.submit data: { disable_with: false }, id:"commit_changes"%>
+<% end %>

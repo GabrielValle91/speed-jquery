@@ -1,0 +1,7 @@
+<%= javascript_include_tag 'shipments' %>
+<%= javascript_include_tag 'shipment_stops' %>
+<div class="col-md-12">
+  <%= render partial: 'list' %>
+  <h2>Edit Shipment <span id="sid"><%= @shipment.id %></span> Details</h2>
+  <%= render partial: 'form', locals: {shipment: @shipment} %>
+</div>

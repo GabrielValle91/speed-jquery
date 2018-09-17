@@ -3,6 +3,10 @@ reClass = () => {
   $('#invoiceNav').addClass('active'); 
 }
 
+addListeners = () => {
+  
+}
+
 $(function() {
   reClass();
   addListeners();

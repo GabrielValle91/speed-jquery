@@ -8,5 +8,4 @@ reClass = () => {
 
 $(function() {
   reClass();
-  addListeners();
 })

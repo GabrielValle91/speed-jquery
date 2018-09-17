@@ -6,13 +6,6 @@ class ClientsController < ApplicationController
 
   def index
     @clients = Client.all
-    # @clients = [] 
-    # current_user.offices.each do |office|
-    #   office.clients.each do |client|
-    #     @clients << client
-    #   end
-    # end
-    # @clients.uniq!
   end
 
   def show

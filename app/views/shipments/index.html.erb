@@ -1,1 +1,16 @@
 <%= javascript_include_tag 'shipments' %>
+<div class="col-md-12">
+  <h1>Shipment Index Page</h1>
+  <a class="btn btn-primary" href="<%= new_shipment_path %>" role="button">New Shipment</a>
+  <br><br>
+  <div class="dropdown">
+    <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      View an Open Shipment
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+      <% @shipments.each do |shipment| %>
+        <a class="dropdown-item" href="<%=shipment_path(shipment)%>"><%= shipment.id %></a>
+      <% end %>
+    </div>
+  </div>
+</div>
