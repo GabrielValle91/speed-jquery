@@ -6,5 +6,7 @@ class ShipmentStop < ApplicationRecord
   belongs_to :vehicle, optional: true
   belongs_to :trailer, optional: true
   belongs_to :office
+  belongs_to :contact, optional: true
+  has_many :shipment_stop_items
   STOPSTATUS = ["Open", "Dispatched", "Completed"]
 end

@@ -13,4 +13,6 @@ class Office < ApplicationRecord
   has_many :vehicles, through: :office_vehicles
   has_many :office_trailers
   has_many :trailers, through: :office_trailers
+  has_many :trailer_rentals
+  has_many :vehicle_rentals
 end

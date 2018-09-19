@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_13_032425) do
+ActiveRecord::Schema.define(version: 2018_09_17_224001) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,15 +44,6 @@ ActiveRecord::Schema.define(version: 2018_09_13_032425) do
     t.string "default_vehicle_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "location_contacts", force: :cascade do |t|
-    t.bigint "location_id"
-    t.bigint "contact_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["contact_id"], name: "index_location_contacts_on_contact_id"
-    t.index ["location_id"], name: "index_location_contacts_on_location_id"
   end
 
   create_table "location_notes", force: :cascade do |t|
@@ -191,16 +182,22 @@ ActiveRecord::Schema.define(version: 2018_09_13_032425) do
     t.bigint "office_id"
     t.bigint "shipment_id"
     t.integer "stop_number"
-    t.datetime "stop_start"
-    t.datetime "stop_end"
+    t.date "stop_start"
+    t.date "stop_end"
     t.string "stop_status"
-    t.datetime "stop_arrival"
-    t.datetime "stop_departure"
+    t.date "stop_arrival"
+    t.date "stop_departure"
     t.text "stop_notes"
     t.bigint "vehicle_id"
     t.bigint "trailer_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "contact_id"
+    t.time "stop_start_time"
+    t.time "stop_end_time"
+    t.time "stop_arrival_time"
+    t.time "stop_departure_time"
+    t.index ["contact_id"], name: "index_shipment_stops_on_contact_id"
     t.index ["driver_id"], name: "index_shipment_stops_on_driver_id"
     t.index ["location_id"], name: "index_shipment_stops_on_location_id"
     t.index ["office_id"], name: "index_shipment_stops_on_office_id"
@@ -222,7 +219,7 @@ ActiveRecord::Schema.define(version: 2018_09_13_032425) do
     t.bigint "client_id"
     t.string "reference"
     t.date "invoice_date"
-    t.string "shipment_status"
+    t.string "shipment_status", default: "Open"
     t.text "dispatch_notes"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -254,6 +251,8 @@ ActiveRecord::Schema.define(version: 2018_09_13_032425) do
     t.date "end_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "office_id"
+    t.index ["office_id"], name: "index_trailer_rentals_on_office_id"
     t.index ["trailer_id"], name: "index_trailer_rentals_on_trailer_id"
   end
 
@@ -261,7 +260,6 @@ ActiveRecord::Schema.define(version: 2018_09_13_032425) do
     t.string "trailer_number"
     t.string "trailer_owner"
     t.string "trailer_owner_number"
-    t.boolean "active"
     t.string "trailer_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -281,16 +279,20 @@ ActiveRecord::Schema.define(version: 2018_09_13_032425) do
     t.date "end_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "office_id"
+    t.index ["office_id"], name: "index_vehicle_rentals_on_office_id"
     t.index ["vehicle_id"], name: "index_vehicle_rentals_on_vehicle_id"
   end
 
   create_table "vehicles", force: :cascade do |t|
     t.string "vehicle_number"
     t.string "vehicle_owner"
-    t.boolean "active"
     t.string "vehicle_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "shipment_stops", "contacts"
+  add_foreign_key "trailer_rentals", "offices"
+  add_foreign_key "vehicle_rentals", "offices"
 end
