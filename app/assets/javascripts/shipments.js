@@ -141,10 +141,36 @@ class ShipmentStop{
 
     //stop status change listener - shipment_stop controller
     $(`#status-stop-${this.stopNum}`).on('change', () => {
-      let status = $(`#status-stop-${this.stopNum}`).val()
+      let status = $(`#status-stop-${this.stopNum}`).val();
+      let stop_arrival_time = null;
+      let stop_departure_time = null;
+      if (status === "Completed"){
+        stop_arrival_time = prompt("Enter driver arrival time (hhhh format)", '');
+        stop_departure_time = prompt("Enter driver departure time (hhhh format)", '');
+        if (stop_arrival_time.length == 3){
+          stop_arrival_time = 0 + stop_arrival_time
+        }
+        if (stop_departure_time.length == 3){
+          stop_departure_time = 0 + stop_departure_time
+        }
+        if (stop_arrival_time.length == 4){
+          stop_arrival_time = stop_arrival_time.substring(0,2) + ":" + stop_arrival_time.substring(2)
+        }
+        if (stop_departure_time.length == 4){
+          stop_departure_time = stop_departure_time.substring(0,2) + ":" + stop_departure_time.substring(2)
+        }
+        if (!stop_arrival_time || !stop_departure_time){
+          status = "Dispatched"
+          $(`#status-stop-${this.stopNum}`).val(status);
+        }
+      }
+      $(`#date-arrival-time-stop-${this.stopNum}`).val(stop_arrival_time)
+      $(`#date-departure-time-stop-${this.stopNum}`).val(stop_departure_time)
       let stopData = {
         shipment_stop: {
           stop_status: status,
+          stop_arrival_time: stop_arrival_time,
+          stop_departure_time: stop_departure_time,
         }
       }
       $.ajax({
