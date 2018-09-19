@@ -13,5 +13,10 @@ class Shipment < ApplicationRecord
   has_many :shipment_charges
   has_many :shipment_costs
 
-  SHIPMENTSTATUS = ["Open", "Completed", "Ready for Invoice"]
+  SHIPMENTSTATUS ||= ["Open", "Completed", "Ready for Invoice"]
+
+  def tariff_id=(tariff_id_value)
+    self.shipment_tariff.tariff_id = tariff_id_value
+    self.shipment_tariff.save
+  end
 end

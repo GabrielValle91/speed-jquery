@@ -6,6 +6,130 @@ reClass = () => {
   $('#shipmentNav').addClass('active'); 
 }
 
+shipmentInfoListeners = () => {
+  //update shipment client on change
+  $("#shipment_client_id").on('change', () => {
+    let clientId = $("#shipment_client_id").val()
+    let sId = $("#shipment_id").val()
+    let authToken = $(".edit_shipment").children("input[name='authenticity_token']").val();
+    clientId === "" ? clientId=null : clientId=clientId
+    let shipmentData = {
+      authenticity_token: authToken,
+      shipment: {
+        client_id: clientId,
+        tariff_id: null,
+      }
+    }
+    $.ajax({
+      type: 'PATCH',
+      url: `/shipments/${sId}.json`,
+      data: shipmentData
+    })
+    //retrieve list of tariffs and append to tariff dropdown
+    if (clientId) {
+      $.get(`/clients/${clientId}.json`, (client) => {
+        let newOptions = "<option></option>"
+        client.tariffs.forEach(function(tariff){
+          newOptions += `<option id='tariff-${tariff.id}'>${tariff.name}</option>`
+        })
+        $("#shipment_tariff").empty()
+        $("#shipment_tariff").append(newOptions)
+      })
+    }
+  })
+  //update shipment reference on change
+  $("#shipment_reference").on('change', () => {
+    let val = $("#shipment_reference").val()
+    let sId = $("#shipment_id").val()
+    let authToken = $(".edit_shipment").children("input[name='authenticity_token']").val();
+    let shipmentData = {
+      authenticity_token: authToken,
+      shipment: {
+        reference: val,
+      }
+    }
+    $.ajax({
+      type: 'PATCH',
+      url: `/shipments/${sId}.json`,
+      data: shipmentData
+    })
+  })
+  //update shipment tariff on change
+  $("#shipment_tariff").on('change', () => {
+    let tariffId = $("#shipment_tariff").children(":selected").attr("id").split('-')[1]
+    let sId = $("#shipment_id").val()
+    let authToken = $(".edit_shipment").children("input[name='authenticity_token']").val();
+    let shipmentData = {
+      authenticity_token: authToken,
+      shipment: {
+        tariff_id: tariffId,
+        }
+      }
+      $.ajax({
+        type: 'PATCH',
+        url: `/shipments/${sId}.json`,
+        data: shipmentData
+      })
+      //retrieve tariff rate, min, max and update rate, min, max fields
+      $.get(`/tariffs/${tariffId}.json`, (tariff) => {
+        $("#tariff-rate").val(tariff.rate)
+        $("#tariff-min").val(tariff.min)
+        $("#tariff-max").val(tariff.max)
+      })
+  })
+  //update shipment status on change
+  $("#shipment_shipment_status").on('change', () => {
+    let val = $("#shipment_shipment_status").val()
+    let sId = $("#shipment_id").val()
+    let authToken = $(".edit_shipment").children("input[name='authenticity_token']").val();
+    let shipmentData = {
+      authenticity_token: authToken,
+      shipment: {
+        shipment_status: val,
+      }
+    }
+    $.ajax({
+      type: 'PATCH',
+      url: `/shipments/${sId}.json`,
+      data: shipmentData
+    })
+  })
+  //update shipment invoice date on change
+  $("#shipment_invoice_date").on('change', () => {
+    let val = $("#shipment_invoice_date").val()
+    let sId = $("#shipment_id").val()
+    let authToken = $(".edit_shipment").children("input[name='authenticity_token']").val();
+    let shipmentData = {
+      authenticity_token: authToken,
+      shipment: {
+        invoice_date: val,
+      }
+    }
+    $.ajax({
+      type: 'PATCH',
+      url: `/shipments/${sId}.json`,
+      data: shipmentData
+    })
+  })
+  //update shipment office on change
+  $("#shipment_office_id").on('change', () => {
+    let officeId = $("#shipment_office_id").children(":selected").val()
+    let sId = $("#shipment_id").val()
+    let authToken = $(".edit_shipment").children("input[name='authenticity_token']").val();
+    let shipmentData = {
+      authenticity_token: authToken,
+      shipment: {
+        office_id: officeId,
+        }
+      }
+      $.ajax({
+        type: 'PATCH',
+        url: `/shipments/${sId}.json`,
+        data: shipmentData
+      })
+  })
+}
+
 class ShipmentStop{
   constructor(stopNum, stopId){
     this.stopNum = stopNum;
@@ -27,7 +151,7 @@ class ShipmentStop{
         data: stopData
       })
     })
-    //start date change listener - shipment_stop controller
+    //start date change listener
     $(`#date-start-stop-${this.stopNum}`).on('change', () => {
       let val = $(`#date-start-stop-${this.stopNum}`).val();
       let stopData = {
@@ -41,7 +165,7 @@ class ShipmentStop{
         data: stopData
       })
     })
-    //start time change listener - shipment_stop controller
+    //start time change listener
     $(`#date-start-time-stop-${this.stopNum}`).on('change', () => {
       let val = $(`#date-start-time-stop-${this.stopNum}`).val()
       let stopData = {
@@ -55,7 +179,7 @@ class ShipmentStop{
         data: stopData
       })
     })
-    //end date change listener - shipment_stop controller
+    //end date change listener
     $(`#date-end-stop-${this.stopNum}`).on('change', () => {
       let val = $(`#date-end-stop-${this.stopNum}`).val();
       let stopData = {
@@ -69,7 +193,7 @@ class ShipmentStop{
         data: stopData
       })
     })
-    //end time change listener - shipment_stop controller
+    //end time change listener
     $(`#date-end-time-stop-${this.stopNum}`).on('change', () => {
       let val = $(`#date-end-time-stop-${this.stopNum}`).val()
       let stopData = {
@@ -83,7 +207,7 @@ class ShipmentStop{
         data: stopData
       })
     })
-    //location id change listener - shipment_stop controller
+    //location id change listener
     $(`#location-stop-${this.stopNum}`).on('change', () => {
       let locationId = null
       if ($(`#location-stop-${this.stopNum}`).children(":selected").attr("id")){
@@ -107,17 +231,17 @@ class ShipmentStop{
         $(`#zip-stop-${this.stopNum}`).val(locationDetails.zip)
       })
     })
-    //location address1 change listener - location controller
+    //location address1 change listener
 
-    //location address2 change listener - location controller
+    //location address2 change listener
 
-    //location city change listener - location controller
+    //location city change listener
 
-    //location state change listener - location controller
+    //location state change listener
 
-    //location zip change listener - location controller
+    //location zip change listener
 
-    //contact id change listener - shipment_stop controller
+    //contact id change listener
     $(`#contact-stop-${this.stopNum}`).on('change', () => {
       let contactId = null;
       if($(`#contact-stop-${this.stopNum}`).children(":selected").attr("id")){
@@ -135,18 +259,20 @@ class ShipmentStop{
       })
     })
 
-    //contact phone change listener - contact controller
+    //contact phone change listener
 
-    //contact email change listener - contact controller
+    //contact email change listener
 
-    //stop status change listener - shipment_stop controller
+    //stop status change listener
     $(`#status-stop-${this.stopNum}`).on('change', () => {
       let status = $(`#status-stop-${this.stopNum}`).val();
       let stop_arrival_time = null;
       let stop_departure_time = null;
       if (status === "Completed"){
+        //if stop is completed then prompt user for times
         stop_arrival_time = prompt("Enter driver arrival time (hhhh format)", '');
         stop_departure_time = prompt("Enter driver departure time (hhhh format)", '');
+        // convert times to correct format
         if (stop_arrival_time.length == 3){
           stop_arrival_time = 0 + stop_arrival_time
         }
@@ -159,11 +285,13 @@ class ShipmentStop{
         if (stop_departure_time.length == 4){
           stop_departure_time = stop_departure_time.substring(0,2) + ":" + stop_departure_time.substring(2)
         }
+        //if no times provided then revert status to dispatched
         if (!stop_arrival_time || !stop_departure_time){
           status = "Dispatched"
           $(`#status-stop-${this.stopNum}`).val(status);
         }
       }
+      //update page with stop arrival and departure times
       $(`#date-arrival-time-stop-${this.stopNum}`).val(stop_arrival_time)
       $(`#date-departure-time-stop-${this.stopNum}`).val(stop_departure_time)
       let stopData = {
@@ -179,7 +307,7 @@ class ShipmentStop{
         data: stopData
       })
     })
-    //arrial date change listener - shipment_stop controller
+    //arrial date change listener
     $(`#date-arrival-stop-${this.stopNum}`).on('change', () => {
       let val = $(`#date-arrival-stop-${this.stopNum}`).val()
       let stopData = {
@@ -193,7 +321,7 @@ class ShipmentStop{
         data: stopData
       })
     })
-    //arrival time change listener - shipment_stop controller
+    //arrival time change listener
     $(`#date-arrival-time-stop-${this.stopNum}`).on('change', () => {
       let val = $(`#date-arrival-time-stop-${this.stopNum}`).val()
       let stopData = {
@@ -207,7 +335,7 @@ class ShipmentStop{
         data: stopData
       })
     })
-    //departure date change listener - shipment_stop controller
+    //departure date change listener
     $(`#date-departure-stop-${this.stopNum}`).on('change', () => {
       let val = $(`#date-departure-stop-${this.stopNum}`).val()
       let stopData = {
@@ -221,7 +349,7 @@ class ShipmentStop{
         data: stopData
       })
     })
-    // departure time change listener - shipment_stop controller
+    // departure time change listener
     $(`#date-departure-time-stop-${this.stopNum}`).on('change', () => {
       let val = $(`#date-departure-time-stop-${this.stopNum}`).val()
       let stopData = {
@@ -235,15 +363,25 @@ class ShipmentStop{
         data: stopData
       })
     })
-    //driver change listener - shipment_stop controller
+    //driver change listener
     $(`#driver-stop-${this.stopNum}`).on('change', () => {
       let driverId = null;
+      let stopStatus = $(`#status-stop-${this.stopNum}`).val();
       if($(`#driver-stop-${this.stopNum}`).children(":selected").attr("id")){
-        let driverId = $(`#driver-stop-${this.stopNum}`).children(":selected").attr("id").split('-')[1]
+        driverId = $(`#driver-stop-${this.stopNum}`).children(":selected").attr("id").split('-')[1]
+      }
+      if (driverId && stopStatus === "Open"){
+        stopStatus = "Dispatched"
+        $(`#status-stop-${this.stopNum}`).val(stopStatus);
+      }
+      if (!driverId){
+        stopStatus = "Open"
+        $(`#status-stop-${this.stopNum}`).val(stopStatus);
       }
       let stopData = {
         shipment_stop: {
           driver_id: driverId,
+          stop_status: stopStatus,
         }
       }
       $.ajax({
@@ -252,7 +390,7 @@ class ShipmentStop{
         data: stopData
       })
     })
-    //vehicle change listener - shipment_stop controller
+    //vehicle change listener
     $(`#vehicle-stop-${this.stopNum}`).on('change', () => {
       let vehicleId = null
       if($(`#vehicle-stop-${this.stopNum}`).children(":selected").attr("id")) {
@@ -269,7 +407,7 @@ class ShipmentStop{
         data: stopData
       })
     })
-    //trailer change listener - shipment_stop controller
+    //trailer change listener
     $(`#trailer-stop-${this.stopNum}`).on('change', () => {
       let trailerId = null
       if($(`#trailer-stop-${this.stopNum}`).children(":selected").attr("id")){
@@ -347,7 +485,6 @@ newStopButton = () => {
 submitForm = () => {
   $("#commit_changes").on('click', function(e){
     e.preventDefault();
-    alert("success")
   })
 }
 
@@ -362,6 +499,7 @@ addListeners = () => {
   submitForm();
   newStopButton();
   stopListeners();
+  shipmentInfoListeners();
 }
 
 stopCount = () => {

@@ -8,6 +8,10 @@ class TariffsController < ApplicationController
 
   def show
     @tariff = Tariff.find(params[:id])
+    respond_to do |format|
+      format.html
+      format.json {render json: @tariff}
+    end
   end
 
   def create

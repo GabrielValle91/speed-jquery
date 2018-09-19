@@ -49,6 +49,8 @@ class ShipmentsController < ApplicationController
   end
 
   def update
+    @shipment.update(shipment_params)
+    render json: @shipment
   end
 
   def new_stop
@@ -77,6 +79,6 @@ class ShipmentsController < ApplicationController
   end
 
   def shipment_params
-    require(:shipment).permit(:client_id, :reference, :invoice_date, :shipment_status, :dispatch_notes, :office_id)
+    params.require(:shipment).permit(:client_id, :reference, :invoice_date, :shipment_status, :dispatch_notes, :office_id, :tariff_id)
   end
 end

@@ -143,38 +143,40 @@
         </select>
       </div>
     </div>
-    <div class="row col-md-12 mb-2">
-      <div class="form-row col-md-12">
-        <div class="col-md-1"><label class="control-label">Type</label></div>
-        <div class="col-md-1"><label class="control-label">Qty</label></div>
-        <div class="col-md-1"><label class="control-label">Weight</label></div>
-        <div class="col-md-7"><label class="control-label">Description</label></div>
+    <% if shipment_stop.stop_number != 1 %>
+      <div class="row col-md-12 mb-2">
+        <div class="form-row col-md-12">
+          <div class="col-md-1"><label class="control-label">Type</label></div>
+          <div class="col-md-1"><label class="control-label">Qty</label></div>
+          <div class="col-md-1"><label class="control-label">Weight</label></div>
+          <div class="col-md-7"><label class="control-label">Description</label></div>
+        </div>
+        <table class="table table-sm">
+          <tbody id="items-stop-<%= shipment_stop.id %>">
+            <% shipment_stop.shipment_stop_items.each do |item| %>
+              <tr>
+                <td><%= item.item_type %></td>
+                <td><%= item.quantity ? item.quantity : ' ' %></td>
+                <td><%= item.weight ? item.weight : ' ' %></td>
+                <td><%= item.description %></td>
+                <td><button type="button" class="btn btn-danger btn-sm" id="remove-item-<%= item.id %>">Remove Item</button></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+            <div class="form-row col-md-12">
+              <select class="col-md-1" id="add-item-type-stop-<%= shipment_stop.stop_number %>">
+                        <option>Pallet</option>
+                        <option>Box</option>
+                        <option>Unit</option>
+              </select>
+              <div class="col-md-1"><input type="text" class="form-control form-control-sm" id="add-item-quantity-stop-<%= shipment_stop.stop_number %>"></div>
+              <div class="col-md-1"><input type="text" class="form-control form-control-sm" id="add-item-weight-stop-<%= shipment_stop.stop_number %>"></div>
+              <div class="col-md-7"><input type="text" class="form-control form-control-sm" id="add-item-description-stop-<%= shipment_stop.stop_number %>"></div>
+              <button type="button" class="btn btn-success btn-sm" id="add-item-stop-<%= shipment_stop.stop_number %>">Add Item</button>
+            </div>
       </div>
-      <table class="table table-sm">
-        <tbody id="items-stop-<%= shipment_stop.id %>">
-          <% shipment_stop.shipment_stop_items.each do |item| %>
-            <tr>
-              <td><%= item.item_type %></td>
-              <td><%= item.quantity ? item.quantity : ' ' %></td>
-              <td><%= item.weight ? item.weight : ' ' %></td>
-              <td><%= item.description %></td>
-              <td><button type="button" class="btn btn-danger btn-sm" id="remove-item-<%= item.id %>">Remove Item</button></td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
-          <div class="form-row col-md-12">
-            <select class="col-md-1" id="add-item-type-stop-<%= shipment_stop.stop_number %>">
-                      <option>Pallet</option>
-                      <option>Box</option>
-                      <option>Unit</option>
-            </select>
-            <div class="col-md-1"><input type="text" class="form-control form-control-sm" id="add-item-quantity-stop-<%= shipment_stop.stop_number %>"></div>
-            <div class="col-md-1"><input type="text" class="form-control form-control-sm" id="add-item-weight-stop-<%= shipment_stop.stop_number %>"></div>
-            <div class="col-md-7"><input type="text" class="form-control form-control-sm" id="add-item-description-stop-<%= shipment_stop.stop_number %>"></div>
-            <button type="button" class="btn btn-success btn-sm" id="add-item-stop-<%= shipment_stop.stop_number %>">Add Item</button>
-          </div>
-    </div>
+    <% end %>
   </div>
 </div>
         

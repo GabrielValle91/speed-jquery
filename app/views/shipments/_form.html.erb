@@ -33,19 +33,22 @@
               <div class="form-group col-md-2">
                 <% if shipment.client %>
                   <%= f.label :tariff, nil, class:"col-md-12 control-label"%>
-                  <select class="form-control form-control-sm">
+                  <select class="form-control form-control-sm" id="shipment_tariff">
                     <option></option>
                     <% shipment.client.tariffs.each do |tariff| %>
-                      <option <%= 'selected' if shipment.tariff.id == tariff.id %>><%= tariff.name %></option>
+                      <option id="tariff-<%= tariff.id %>" <%= 'selected' if shipment.shipment_tariff.tariff_id == tariff.id %>><%= tariff.name %></option>
                     <% end %>
                   </select>
+                    <input type="hidden" value="<%= shipment.shipment_tariff.tariff_id ? shipment.tariff.rate : '' %>" id="tariff-rate">
+                    <input type="hidden" value="<%= shipment.shipment_tariff.tariff_id ? shipment.tariff.min : '' %>" id="tariff-min">
+                    <input type="hidden" value="<%= shipment.shipment_tariff.tariff_id ? shipment.tariff.max : '' %>" id="tariff-max">
                 <% end %>
               </div>
               <div class="form-group col-md-1">
               </div>
               <div class="form-group col-md-1.75">
                 <%= f.label :shipment_status, nil, class:"col-md-12 control-label" %>
-                <%= f.select :shipment_status, Shipment::SHIPMENTSTATUS, {include_blank: true}, class:"form-control form-control-sm" %>
+                <%= f.select :shipment_status, Shipment::SHIPMENTSTATUS, {include_blank: false}, class:"form-control form-control-sm" %>
               </div>
               <div class="form-group col-md-1.25">
                 <%= f.label :invoice_date, nil, class:"col-md-12 control-label" %>
