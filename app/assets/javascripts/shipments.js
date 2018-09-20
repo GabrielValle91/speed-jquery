@@ -56,26 +56,37 @@ shipmentInfoListeners = () => {
   })
   //update shipment tariff on change
   $("#shipment_tariff").on('change', () => {
-    let tariffId = $("#shipment_tariff").children(":selected").attr("id").split('-')[1]
+    let tariffId = null
+    if($("#shipment_tariff").children(":selected").attr("id")){
+      tariffId = $("#shipment_tariff").children(":selected").attr("id").split('-')[1]
+    }
     let sId = $("#shipment_id").val()
     let authToken = $(".edit_shipment").children("input[name='authenticity_token']").val();
     let shipmentData = {
       authenticity_token: authToken,
       shipment: {
         tariff_id: tariffId,
-        }
       }
-      $.ajax({
-        type: 'PATCH',
-        url: `/shipments/${sId}.json`,
-        data: shipmentData
-      })
-      //retrieve tariff rate, min, max and update rate, min, max fields
+    }
+    $.ajax({
+      type: 'PATCH',
+      url: `/shipments/${sId}.json`,
+      data: shipmentData
+    })
+    //retrieve tariff rate, min, max and update rate, min, max fields
+    if($("#shipment_tariff").children(":selected").attr("id")){
       $.get(`/tariffs/${tariffId}.json`, (tariff) => {
         $("#tariff-rate").val(tariff.rate)
         $("#tariff-min").val(tariff.min)
         $("#tariff-max").val(tariff.max)
       })
+    } else {
+      $("#tariff-rate").val(0)
+        $("#tariff-min").val(0)
+        $("#tariff-max").val(0)
+    }
+    
+
   })
   //update shipment status on change
   $("#shipment_shipment_status").on('change', () => {
@@ -426,6 +437,10 @@ class ShipmentStop{
     })
     //add item button
     $(`#add-item-stop-${this.stopNum}`).on('click', () => {
+      let itemCount = parseInt($(`#add-item-quantity-stop-${this.stopNum}`).val());
+      let totalItems = parseInt($("#shipment_item_count").val());
+      totalItems += itemCount
+      $("#shipment_item_count").val(totalItems);
       let itemData = {
         shipment_stop_item: {
           shipment_stop_id: this.stopId,
@@ -443,7 +458,13 @@ class ShipmentStop{
             type: 'DELETE',
             url: `/shipment_stop_items/${ele.target.id.split("-")[2]}`,
           })
-          ele.target.parentNode.parentNode.remove()
+          let itemLost = parseInt(ele.target.parentElement.parentElement.children[1].innerHTML);
+          if (itemLost){
+            let totalItems = parseInt($("#shipment_item_count").val());
+            totalItems -= itemLost;
+            $("#shipment_item_count").val(totalItems);
+          }
+          ele.target.parentNode.parentNode.remove();
         })
       })
     })
@@ -455,6 +476,12 @@ class ShipmentStop{
         type: 'DELETE',
         url: `/shipment_stop_items/${id}`,
       })
+      let itemLost = parseInt(ele.target.parentElement.parentElement.children[1].innerHTML);
+      if (itemLost){
+        let totalItems = parseInt($("#shipment_item_count").val());
+        totalItems -= itemLost;
+        $("#shipment_item_count").val(totalItems);
+      }
       ele.target.parentNode.parentNode.remove()
     })
   }

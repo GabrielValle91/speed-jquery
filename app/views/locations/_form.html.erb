@@ -12,7 +12,7 @@
       <br>
     <% end %>
     <div class="row col-md-12">
-      <div class="col-md-12 justify-content-start">
+      <div class="col-md-12">
         <div class="form-row">
           <div class="form-group col-md-12">
             <%= f.label :company_name, value="Company Name (this appears in dropdowns)", class:"col-md-12 control-label" %>
@@ -29,19 +29,19 @@
             <%= f.text_field :address2, class:"form-control form-control-sm" %>
           </div>
         </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group col-md-6">
-          <%= f.label :city, value="City", class:"col-md-6 control-label" %>
-          <%= f.text_field :city, class:"form-control form-control-sm" %>
-        </div>
-        <div class="form-group col-md-3">
-          <%= f.label :state, value="State", class:"col-md-3 control-label" %>
-          <%= f.select :state, Location::STATES, {include_blank: true}, class:"form-control form-control-sm" %>
-        </div>
-        <div class="form-group col-md-3">
-          <%= f.label :zip, value="Zip", class:"col-md-3 control-label" %>
-          <%= f.text_field :zip, class:"form-control form-control-sm" %>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <%= f.label :city, value="City", class:"col-md-6 control-label" %>
+            <%= f.text_field :city, class:"form-control form-control-sm" %>
+          </div>
+          <div class="form-group col-md-3">
+            <%= f.label :state, value="State", class:"col-md-3 control-label" %>
+            <%= f.select :state, Location::STATES, {include_blank: true}, class:"form-control form-control-sm" %>
+          </div>
+          <div class="form-group col-md-3">
+            <%= f.label :zip, value="Zip", class:"col-md-3 control-label" %>
+            <%= f.text_field :zip, class:"form-control form-control-sm" %>
+          </div>
         </div>
       </div>
     </div>

@@ -40,12 +40,18 @@ class ShipmentsController < ApplicationController
       shipment_stop.save
     end
     @shipment_stops = @shipment.shipment_stops.sort {|x,y| x.stop_number <=> y.stop_number }
-    @clients = []
-    current_user.offices.each do |office|
-      office.clients.each do |client|
-        @clients << client.name
+    @shipment_item_count = 0
+    @shipment_stops.each do |stop|
+      stop.shipment_stop_items.each do |item|
+        @shipment_item_count += item.quantity
       end
     end
+    # @clients = []
+    # current_user.offices.each do |office|
+    #   office.clients.each do |client|
+    #     @clients << client.name
+    #   end
+    # end
   end
 
   def update

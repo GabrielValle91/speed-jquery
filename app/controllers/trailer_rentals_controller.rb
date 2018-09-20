@@ -13,7 +13,12 @@ class TrailerRentalsController < ApplicationController
   def create
     @trailer_rental = TrailerRental.new(trailer_rental_params)
     if @trailer_rental.save
-      render json: @trailer_rental
+      @rental = {
+        start_date: @trailer_rental.start_date.strftime("%m/%d/%Y"),
+        end_date: @trailer_rental.end_date.strftime("%m/%d/%Y"),
+        office_name: @trailer_rental.office.name
+      }
+      render json: @rental
     else
       flash[:notice] = "#{@trailer_rental.errors.full_messages}"
       render json: @trailer_rental
@@ -23,6 +28,6 @@ class TrailerRentalsController < ApplicationController
   private
 
   def trailer_rental_params
-    params.require(:trailer_rental).permit(:trailer_id, :start_date, :end_date)
+    params.require(:trailer_rental).permit(:trailer_id, :start_date, :end_date, :office_id)
   end
 end
