@@ -13,9 +13,11 @@ class VehicleRentalsController < ApplicationController
   def create
     @vehicle_rental = VehicleRental.new(vehicle_rental_params)
     if @vehicle_rental.save
+      rental_start = @vehicle_rental.start_date ? @vehicle_rental.start_date.strftime("%m/%d/%Y") : nil
+      rental_end = @vehicle_rental.end_date ? @vehicle_rental.end_date.strftime("%m/%d/%Y") : nil
       @rental = {
-        start_date: @vehicle_rental.start_date.strftime("%m/%d/%Y"),
-        end_date: @vehicle_rental.end_date.strftime("%m/%d/%Y"),
+        start_date: rental_start,
+        end_date: rental_end,
         office_name: @vehicle_rental.office_name
       }
       render json: @rental
