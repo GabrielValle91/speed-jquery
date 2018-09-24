@@ -145,19 +145,21 @@
     </div>
     <% if shipment_stop.stop_number != 1 %>
       <div class="row col-md-12 mb-2">
-        <div class="form-row col-md-12">
-          <div class="col-md-1"><label class="control-label">Type</label></div>
-          <div class="col-md-1"><label class="control-label">Qty</label></div>
-          <div class="col-md-1"><label class="control-label">Weight</label></div>
-          <div class="col-md-7"><label class="control-label">Description</label></div>
-        </div>
         <table class="table table-sm">
+          <thead>
+            <tr>
+              <th style="width: 9%">Type</th>
+              <th style="width: 8%">Qty</th>
+              <th style="width: 7%">Weight</th>
+              <th style="width: 70%">Description</th>
+            </tr>
+          </thead>
           <tbody id="items-stop-<%= shipment_stop.id %>">
             <% shipment_stop.shipment_stop_items.each do |item| %>
               <tr>
                 <td><%= item.item_type %></td>
-                <td><%= item.quantity ? item.quantity : ' ' %></td>
-                <td><%= item.weight ? item.weight : ' ' %></td>
+                <td><%= item.quantity ? item.quantity : 0 %></td>
+                <td><%= item.weight ? item.weight : 0 %></td>
                 <td><%= item.description %></td>
                 <td><button type="button" class="btn btn-danger btn-sm" id="remove-item-<%= item.id %>">Remove Item</button></td>
               </tr>

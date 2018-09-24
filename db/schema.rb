@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_17_224001) do
+ActiveRecord::Schema.define(version: 2018_09_21_170350) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -127,6 +127,9 @@ ActiveRecord::Schema.define(version: 2018_09_17_224001) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "team_id"
+    t.string "charge_type"
+    t.integer "stop_number"
+    t.decimal "cost", precision: 10, scale: 2
     t.index ["driver_id"], name: "index_shipment_charges_on_driver_id"
     t.index ["shipment_id"], name: "index_shipment_charges_on_shipment_id"
   end
@@ -139,6 +142,8 @@ ActiveRecord::Schema.define(version: 2018_09_17_224001) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "team_id"
+    t.string "charge_type"
+    t.integer "stop_number"
     t.index ["driver_id"], name: "index_shipment_costs_on_driver_id"
     t.index ["shipment_id"], name: "index_shipment_costs_on_shipment_id"
   end
@@ -149,11 +154,11 @@ ActiveRecord::Schema.define(version: 2018_09_17_224001) do
     t.decimal "quantity", precision: 5, scale: 2
     t.decimal "revenue", precision: 10, scale: 2
     t.boolean "exported"
-    t.bigint "team_id_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "team_id"
     t.index ["shipment_id"], name: "index_shipment_invoices_on_shipment_id"
-    t.index ["team_id_id"], name: "index_shipment_invoices_on_team_id_id"
+    t.index ["team_id"], name: "index_shipment_invoices_on_team_id"
   end
 
   create_table "shipment_stop_accessorials", force: :cascade do |t|
@@ -292,6 +297,7 @@ ActiveRecord::Schema.define(version: 2018_09_17_224001) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "shipment_invoices", "teams"
   add_foreign_key "shipment_stops", "contacts"
   add_foreign_key "trailer_rentals", "offices"
   add_foreign_key "vehicle_rentals", "offices"

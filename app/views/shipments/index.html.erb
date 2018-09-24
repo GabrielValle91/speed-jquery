@@ -9,7 +9,7 @@
     </button>
     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
       <% @shipments.each do |shipment| %>
-        <a class="dropdown-item" href="<%=shipment_path(shipment)%>"><%= shipment.id %></a>
+        <a class="dropdown-item" href="<%= edit_shipment_path(shipment) %>"><%= shipment.id %></a>
       <% end %>
     </div>
   </div>

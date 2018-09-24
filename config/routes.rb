@@ -12,6 +12,9 @@ Rails.application.routes.draw do
   resources :shipment_costs
   resources :shipments do 
     get '/newstop', to: 'shipments#new_stop'
+    resources :shipment_invoices
+    resources :shipment_charges
+    resources :shipment_costs
   end
   resources :tariffs
   resources :location_notes

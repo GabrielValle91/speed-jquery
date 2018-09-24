@@ -16,7 +16,11 @@ class Shipment < ApplicationRecord
   SHIPMENTSTATUS ||= ["Open", "Completed", "Ready for Invoice"]
 
   def tariff_id=(tariff_id_value)
-    self.shipment_tariff.tariff_id = tariff_id_value
+    if self.shipment_tariff
+      self.shipment_tariff.tariff_id = tariff_id_value
+    else
+      self.shipment_tariff = ShipmentTariff.new(shipment_id: self.id, tariff_id: tariff_id_value)
+    end
     self.shipment_tariff.save
   end
 end

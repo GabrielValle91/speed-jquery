@@ -1,9 +1,140 @@
 // Place all the behaviors and hooks related to the matching controller here.
 // All this logic will automatically be available in application.js.
-var stopCount = 0;
 reClass = () => {
   $('.navbar-nav li').removeClass("active");
   $('#shipmentNav').addClass('active'); 
+}
+
+calcCharges = () => {
+  let sid = $("#shipment_id").val();
+  let rate = parseFloat($("#tariff-rate").val()).toFixed(2);
+  let min = parseFloat($("#tariff-min").val()).toFixed(2);
+  let max = parseFloat($("#tariff-max").val()).toFixed(2);
+  let qty = parseFloat($("#shipment_item_count").val()).toFixed(2);
+  let stopCount = $("#shipment_stop_info").children().length - 1;
+  //get charges, determine if 'freight' charge exists
+  //if freight charge exists then update with new rates based on piece count
+  //same for invoices, costs and charges tables
+  $.get(`/shipments/${sid}/shipment_invoices.json`, (charges) => {
+    let freightCharges = charges.filter(charge => charge.charge_type === 'freight')
+    let invoiceQuantity = 1;
+    let invoiceRevenue = 0;
+    if (qty * rate < min) {
+      invoiceRevenue = min;
+    } else if (qty * rate > max) {
+      invoiceRevenue = max;
+    } else {
+      invoiceQuantity = qty;
+      invoiceRevenue = parseFloat(qty * rate).toFixed(2);
+    }
+    let invoiceData = {
+      shipment_invoice: {
+        shipment_id: sid,
+        charge_type: 'freight',
+        quantity: invoiceQuantity,
+        revenue: invoiceRevenue,
+      }
+    }
+    if (freightCharges.length === 0){
+      //no freight charges, need to POST
+      $.post(`/shipment_invoices.json`, invoiceData, function(shipmentInvoice){
+        let newRow = `<tr><td>${shipmentInvoice.charge_type}</td><td><input type="text" value="${shipmentInvoice.quantity}" class="form-control form-control-sm col-md-6"></td><td><input type="text" value="${shipmentInvoice.revenue}" class="form-control form-control-sm"></td><td></td></tr>`
+        $("#shipment-invoice-table").append(newRow);
+      })
+    } else {
+      //already have freight charges, need to PATCH
+      $.ajax({
+        type: 'PATCH',
+        url: `/shipment_invoices/${charges[0].id}.json`,
+        data: invoiceData
+      }).then(resp => {
+        $(`#invoice-${resp.id}`).children().children()[0].value = resp.quantity
+        $(`#invoice-${resp.id}`).children().children()[1].value = resp.revenue
+      })
+    }
+  })
+  //get charges/costs associated with driver and stop
+  $.get(`/shipments/${sid}/shipment_charges.json`, (charges) => {
+    let invoiceRevenue = 0;
+    if (qty * rate < min) {
+        invoiceRevenue = min;
+      } else if (qty * rate > max) {
+        invoiceRevenue = max;
+      } else {
+        invoiceRevenue = parseFloat(qty * rate).toFixed(2);
+      }
+    let freightCharges = charges.filter(charge => charge.charge_type === 'freight')
+    let chargeAmount = invoiceRevenue / stopCount;
+    let charged = 0;
+    let costAmount = (invoiceRevenue / stopCount) * 0.7;
+    let paid = 0;
+    for (let stopCounter = 2; stopCounter <= stopCount + 1; stopCounter++){
+      let found = freightCharges.find(function(charge){
+        return charge.stop_number === stopCounter;
+      })
+      if (found){
+        //already have freight charges, need to PATCH
+        let chargeId = freightCharges.find(charge => charge.stop_number === stopCounter).id
+        let driverId = null;
+        if($(`#driver-stop-${stopCounter}`).children(":selected").attr("id")){
+          driverId = $(`#driver-stop-${stopCounter}`).children(":selected").attr("id").split('-')[1];
+        }
+        let chargeDate = $(`#date-start-stop-${stopCounter}`).val();
+        let chargeData = {
+          shipment_charge: {
+            shipment_id: sid,
+            driver_id: driverId,
+            amount: chargeAmount,
+            charge_date: chargeDate,
+            cost: costAmount,
+            charge_type: 'freight',
+            stop_number: stopCounter,
+          }
+        }
+        $.ajax({
+          type: 'PATCH',
+          url: `/shipment_charges/${chargeId}.json`,
+          data: chargeData
+        }).then(resp => {
+          $(`#charge-${resp.id}`).children().children()[0].value = resp.amount
+          $(`#charge-${resp.id}`).children().children()[1].value = resp.cost
+        })
+      } else{
+        //no freight charges, need to POST
+        let driverId = null
+        if ($(`#driver-stop-${stopCounter}`).children(":selected").attr("id")){
+          driverId = $(`#driver-stop-${stopCounter}`).children(":selected").attr("id").split('-')[1];
+        }
+        let chargeDate = $(`#date-start-stop-${stopCounter}`).val();
+        let chargeData = {
+          shipment_charge: {
+            shipment_id: sid,
+            driver_id: driverId,
+            amount: chargeAmount,
+            cost: costAmount,
+            charge_date: chargeDate,
+            charge_type: 'freight',
+            stop_number: stopCounter,
+          }
+        }
+        $.post(`/shipment_charges.json`, chargeData, (shipmentCharge) => {
+          let driverList = $(`#driver-stop-${shipmentCharge.stop_number}`).children();
+          let newRow = `<tr id="charge-${shipmentCharge.id}"><td>${shipmentCharge.charge_type}</td><td><input type="text" value="${shipmentCharge.amount}" class="form-control form-control-sm"></td><td><input type="text" value="${shipmentCharge.cost}" class="form-control form-control-sm"></td><td><select class="form-control form-control-sm">`
+          for (var prop in driverList) {
+            newRow += prop
+          }
+          newRow += "</select></td><td></td></tr>"
+          $("#shipment-charge-table").append(newRow);
+        })
+      }
+      charged += chargeAmount;
+      paid += costAmount;
+      if (stopCounter === stopCount){
+        chargeAmount = invoiceRevenue - charged;
+        costAmount = (invoiceRevenue * .7) - paid;
+      }
+    }
+  })
 }
 
 shipmentInfoListeners = () => {
@@ -451,8 +582,9 @@ class ShipmentStop{
         }
       }
       $.post("/shipment_stop_items", itemData, function(item) {
-        let newRow = `<tr><td>${item.item_type}</td><td>${item.quantity}</td><td>${item.weight}</td><td>${item.description}</td><td><button type='button' class='btn btn-danger btn-sm' id='remove-item-${item.id}'>Remove Item</button></td></tr>`
+        let newRow = `<tr><td>${item.item_type}</td><td>${item.quantity ? item.quantity : 0}</td><td>${item.weight ? item.weight : 0}</td><td>${item.description}</td><td><button type='button' class='btn btn-danger btn-sm' id='remove-item-${item.id}'>Remove Item</button></td></tr>`
         $(`#items-stop-${item.shipment_stop_id}`).append(newRow);
+        if ($("#tariff-rate").val()) {calcCharges();}
         $(`#remove-item-${item.id}`).on('click', (ele) => {
           $.ajax({
             type: 'DELETE',
@@ -465,6 +597,7 @@ class ShipmentStop{
             $("#shipment_item_count").val(totalItems);
           }
           ele.target.parentNode.parentNode.remove();
+          if ($("#tariff-rate").val()) {calcCharges();}
         })
       })
     })
@@ -483,6 +616,7 @@ class ShipmentStop{
         $("#shipment_item_count").val(totalItems);
       }
       ele.target.parentNode.parentNode.remove()
+      if ($("#tariff-rate").val()) {calcCharges();}
     })
   }
 }
@@ -529,13 +663,7 @@ addListeners = () => {
   shipmentInfoListeners();
 }
 
-stopCount = () => {
-  stopCount = $("#shipment_stop_info > div").length
-  
-}
-
 $(function() {
   reClass();
   addListeners();
-  stopCount();
 })

@@ -17,6 +17,8 @@ class ShipmentsController < ApplicationController
     @shipment.invoice_date = Date.today
     @shipment.shipment_status = "Open"
     @shipment.save
+    shipment_stop = ShipmentStop.new(shipment_id: @shipment.id, office_id: current_office.id, stop_number: 1, stop_start: Date.today, stop_end: Date.today, stop_status: "Open")
+    shipment_stop.save
     redirect_to edit_shipment_path(@shipment)
   end
 
@@ -46,6 +48,7 @@ class ShipmentsController < ApplicationController
         @shipment_item_count += item.quantity
       end
     end
+    @invoice_types = ["freight", "fuel", "special", "inside", "liftgate", "2Man", "hazmat", "residential", "debris", "detention", "attempt", "after hours", "extra stop", "trailer", "trailer drop"]
     # @clients = []
     # current_user.offices.each do |office|
     #   office.clients.each do |client|
