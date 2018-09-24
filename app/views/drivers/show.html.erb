@@ -8,7 +8,7 @@
       <h4>Name: <%= @driver.name %></h4>
       <p>Type: <%= @driver.employment_type %></p>
       <p>License: <%= @driver.license %></p>
-      <p>Default Vehicle: <%= @vehicle %></p>
+      <p>Default Vehicle: <%= @vehicle != '' ? @vehicle.vehicle_number : '' %></p>
     </div>
   </div>
   <div class="row">

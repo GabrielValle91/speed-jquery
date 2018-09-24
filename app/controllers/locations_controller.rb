@@ -12,6 +12,7 @@ class LocationsController < ApplicationController
     location_details = @location.address1.split(" ")
     @location_address_details = location_details.join("+")
     location_details = @location.city.split(" ")
+    @location_city_details = @location.city
     if location_details.length > 1
       @location_city_details = location_details.join("+")
     end
