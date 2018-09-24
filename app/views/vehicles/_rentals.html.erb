@@ -1,4 +1,4 @@
-<div class="col-3 justify-content-start">
+<div class="col-4 justify-content-start">
   <h4>Rental Periods</h4>
   <ul class="list-group list-group-flush" id="rental-list">
     <li class="list-group-item">Office - Rental Start - Rental End</li>
@@ -8,15 +8,15 @@
   </ul>
   <%= form_for newRental do |f| %>
     <div class="form-group row col-md-12">
-      <div class="col-md-2.5">
+      <div class="col-md-2">
         <%= f.label :office, nil, class:"col-md-12 control-label" %>
         <%= f.collection_select :office_id, current_user.offices, :id, :name, {include_blank: false}, class:"form-control form-control-sm" %>
       </div>
-      <div class="col-md-5">
+      <div class="col-md-4">
         <%= f.label :start_date, nil, class:"col-md-12 control-label" %>
         <%= f.date_field :start_date, class:"form-control form-control-sm" %>
       </div>
-      <div class="col-md-5">
+      <div class="col-md-4">
         <%= f.label :end_date, nil, class:"col-md control-label" %>
         <%= f.date_field :end_date, class:"form-control form-control-sm" %>
       </div>

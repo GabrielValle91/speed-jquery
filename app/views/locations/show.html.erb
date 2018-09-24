@@ -12,7 +12,7 @@
       <p>State: <%= @location.state %></p>
       <p>Zip: <%= @location.zip %></p>
     </div>
-    <iframe width="500" height="300" src=<%="https://www.google.com/maps/embed/v1/place?key=#{ENV['GOOGLE_KEY']}&q=#{@location.address1}+#{@location.city}+#{@location.state}+#{@location.zip}"%></iframe>
+    <iframe width="500" height="300" src=<%="https://www.google.com/maps/embed/v1/place?key=#{ENV['GOOGLE_KEY']}&q=#{@location_address_details}+#{@location_city_details ? @location_city_details : @location.city}+#{@location.state}+#{@location.zip}"%></iframe>
   </div>
   
 </div>

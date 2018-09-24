@@ -22,7 +22,7 @@ rentalSubmit = () => {
     }
     let url = this.action + ".json";
     $.post(url, rentalData, function(rental){
-      let newLi = `<li class="list-group-item" id="Rental-${rental.id}">${rental.office_name} - ${rental.start_date} - ${rental.end_date}</li>`
+      let newLi = `<li class="list-group-item" id="Rental-${rental.id}">${rental.office_name} - ${rental.start_date ? rental.start_date : ''} - ${rental.end_date ? rental.end_date : ''}</li>`
       $("#rental-list").append(newLi)
     })
   })

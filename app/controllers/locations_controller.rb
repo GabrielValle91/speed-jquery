@@ -9,6 +9,12 @@ class LocationsController < ApplicationController
   end
 
   def show
+    location_details = @location.address1.split(" ")
+    @location_address_details = location_details.join("+")
+    location_details = @location.city.split(" ")
+    if location_details.length > 1
+      @location_city_details = location_details.join("+")
+    end
     respond_to do |format|
       format.html {render :show}
       format.json {render json: @location}
