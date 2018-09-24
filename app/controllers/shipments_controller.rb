@@ -6,15 +6,20 @@ class ShipmentsController < ApplicationController
   protect_from_forgery except: :new_stop
 
   def index
-    @shipments = Shipment.all
+    shipments = Shipment.all
+    @shipments = shipments.sort{|x,y| x.id <=> y.id }
   end
 
   def show
-    
+    respond_to do |format|
+      format.html
+      format.json {render json: @shipment}
+    end
   end
 
   def new
     @shipment.invoice_date = Date.today
+    @shipment.office_id = current_office.id
     @shipment.shipment_status = "Open"
     @shipment.save
     shipment_stop = ShipmentStop.new(shipment_id: @shipment.id, office_id: current_office.id, stop_number: 1, stop_start: Date.today, stop_end: Date.today, stop_status: "Open")

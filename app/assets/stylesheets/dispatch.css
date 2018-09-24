@@ -1,0 +1,21 @@
+#driver-list{
+  height: 400px;
+  overflow: auto;
+}
+.selected-driver {
+  background-color: lightblue;
+}
+
+.selected-shipment {
+  background-color: lightblue;
+}
+
+#assigned-shipments{
+  height: 400px;
+  overflow: auto;
+}
+
+#unassigned-shipments{
+  height: 400px;
+  overflow: auto;
+}

@@ -31,4 +31,6 @@ Rails.application.routes.draw do
   post '/login', to: 'sessions#create'
   get '/logout', to: 'sessions#logout'
   get '/home', to: 'welcome#show'
+  get '/dispatch/assignedshipments/:date', to: 'dispatch#assignedshipments'
+  get '/dispatch/unassignedshipments', to: 'dispatch#unassignedshipments'
 end

@@ -1,1 +1,83 @@
 <%= javascript_include_tag 'dispatch' %>
+<%= stylesheet_link_tag    'dispatch' %>
+<div class="row col-md-12">
+  <div class="col-md-4">
+  </div>
+  <div id="filter-date" class="col-md-2">
+    <input id="date-filter-value" type="date" value="<%= Date.today %>"></input>
+    <button id="date-filter" class="btn btn-primary btn-sm">Refresh</button>
+  </div>
+</div>
+<br>
+<br>
+<div class="form-row col-md-12">
+  <div class="col-md-1">
+  </div>
+  <div class="col-md-1">
+    <h4><span id="driver-title">Drivers</span></h4>
+    <div id="driver-list">
+      <table id="drivers" class="table table-sm table-hover">
+        <thead>
+          <tr>
+            <th>Name</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @drivers.each do |driver| %>
+            <tr>
+              <td id="<%= driver.id %>"><%= driver.name %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <h4><span id="A-shipment-title">Assigned Shipments</span></h4>
+    <div class="col-md-12">
+      <div id="assigned-shipments">
+        <table id="A-shipments" class="table table-sm table-hover">
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Client Name</th>
+              <th>Reference</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="assigned-shipment-list">
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div id="assigned-shipment-details" class="col-md-12 border border-dark">
+      
+    </div>
+  </div>
+  <div class="col-md-1">
+  </div>
+  <div class="col-md-4">
+    <div class="col-md-12">
+      <h4><span id="U-shipment-title">Unassigned Shipments</span></h4>
+      <div id="unassigned-shipments">
+        <table id="U-shipments" class="table table-sm table-hover">
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Client Name</th>
+              <th>Reference</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody id="unassigned-shipment-list">
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div id="unassigned-shipment-details" class="row col-md-12 border border-dark">
+    
+    </div>
+  </div>
+  <div class="col-md-1">
+  </div>
+</div>
