@@ -9,4 +9,13 @@ class ShipmentStop < ApplicationRecord
   belongs_to :contact, optional: true
   has_many :shipment_stop_items
   STOPSTATUS = ["Open", "Dispatched", "Completed"]
+
+  def driver_name=(name_driver)
+    if name_driver
+      self.driver = Driver.find_by(name: name_driver)
+    else
+      self.driver.id = nil
+    end
+    self.save
+  end
 end

@@ -1,5 +1,6 @@
 class Driver < ApplicationRecord
   validates :name, :employment_type, :license, presence: true
+  validates :name, uniqueness: true
   has_many :shipment_charges
   has_many :shipment_costs
   has_many :shipment_stops
