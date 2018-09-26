@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   resources :shipment_costs
   resources :shipments do 
     get '/newstop', to: 'shipments#new_stop'
+    get '/bol', to: 'shipments#bol'
     resources :shipment_invoices
     resources :shipment_charges
     resources :shipment_costs

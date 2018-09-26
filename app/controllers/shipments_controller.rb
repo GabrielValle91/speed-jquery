@@ -82,6 +82,11 @@ class ShipmentsController < ApplicationController
     end
   end
 
+  def bol
+    @shipment = Shipment.find(params[:shipment_id])
+    render :bol, layout: false
+  end
+
   private
 
   def make_shipment

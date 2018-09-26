@@ -29,6 +29,23 @@ function getDashedDate(date){
   return month + '-' + day + '-' + year;
 }
 
+function updateChargeDrivers(resp, shipmentCharges){
+  shipmentCharges.forEach(charge => {
+    if (charge.stop_number == resp.stop_number){
+      let chargeData = {
+        shipment_charge: {
+          driver_id: resp.driver.id,
+        }
+      }
+      $.ajax({
+        type: 'PATCH',
+        url: `/shipment_charges/${charge.id}.json`,
+        data: chargeData
+      })
+    }
+  })
+}
+
 function assignDriver(shipmentStopId){
   let driverName = $(`#stop-driver-${shipmentStopId}`).val();
   let stopStatus = driverName ? "Dispatched" : "Open";
@@ -73,6 +90,9 @@ function assignDriver(shipmentStopId){
       }
     })
     //update shipment charges for edited stop
+    $.get(`/shipments/${resp.shipment.id}/shipment_charges.json`, (shipmentCharges) => {
+      updateChargeDrivers(resp, shipmentCharges);
+    })
   })
   
 }
