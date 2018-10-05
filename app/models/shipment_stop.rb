@@ -1,5 +1,5 @@
 class ShipmentStop < ApplicationRecord
-  validates :stop_number, :stop_start, :stop_end, :stop_status, presence: true
+  validates :stop_number, :stop_start, :stop_status, presence: true
   belongs_to :shipment
   belongs_to :location, optional: true
   belongs_to :driver, optional: true
