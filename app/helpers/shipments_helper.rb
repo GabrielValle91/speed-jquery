@@ -6,4 +6,12 @@ module ShipmentsHelper
       return nil
     end
   end
+
+  def dateChanger(datefield)
+    if !!datefield
+      return datefield.strftime("%D")
+    else 
+      return nil
+    end
+  end
 end

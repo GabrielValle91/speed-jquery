@@ -84,6 +84,7 @@ class ShipmentsController < ApplicationController
 
   def bol
     @shipment = Shipment.find(params[:shipment_id])
+    @shipment_stops = @shipment.shipment_stops.sort {|x,y| x.stop_number <=> y.stop_number }
     render :bol, layout: false
   end
 

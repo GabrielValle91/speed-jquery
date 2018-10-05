@@ -98,6 +98,7 @@ calcCharges = () => {
         }).then(resp => {
           $(`#charge-${resp.id}`).children().children()[0].value = resp.amount
           $(`#charge-${resp.id}`).children().children()[1].value = resp.cost
+          $(`#charge-${resp.id}`).children().children()[2].value = resp.driver.name
         })
       } else{
         //no freight charges, need to POST
@@ -119,9 +120,13 @@ calcCharges = () => {
         }
         $.post(`/shipment_charges.json`, chargeData, (shipmentCharge) => {
           let driverList = $(`#driver-stop-${shipmentCharge.stop_number}`).children();
-          let newRow = `<tr id="charge-${shipmentCharge.id}"><td>${shipmentCharge.charge_type}</td><td><input type="text" value="${shipmentCharge.amount}" class="form-control form-control-sm"></td><td><input type="text" value="${shipmentCharge.cost}" class="form-control form-control-sm"></td><td><select class="form-control form-control-sm">`
-          for (var prop in driverList) {
-            newRow += prop
+          let newRow = `<tr id="charge-${shipmentCharge.id}"><td>${shipmentCharge.charge_type}</td><td><input type="text" value="${shipmentCharge.amount}" class="form-control form-control-sm"></td><td><input type="text" value="${shipmentCharge.cost}" class="form-control form-control-sm"></td><td><select class="form-control form-control-sm"><option></option>`
+          for (let i = 1; i < driverList.length; i++){
+            if (shipmentCharge.driver && (shipmentCharge.driver.id == driverList[i].id.split("-")[1])){
+              newRow += `<option id="${driverList[i].id.split("-")[1]}" selected>${driverList[i].innerHTML}</option>`
+            } else {
+              newRow += `<option id="${driverList[i].id.split("-")[1]}">${driverList[i].innerHTML}</option>`
+            }
           }
           newRow += "</select></td><td></td></tr>"
           $("#shipment-charge-table").append(newRow);
@@ -405,6 +410,20 @@ class ShipmentStop{
 
     //contact email change listener
 
+    //stop notes change listener
+    $(`#notes-stop-${this.stopNum}`).on('change', () => {
+      let val = $(`#notes-stop-${this.stopNum}`).val()
+      let stopData = {
+        shipment_stop: {
+          stop_notes: val,
+        }
+      }
+      $.ajax({
+        type: 'PATCH',
+        url: `/shipment_stops/${this.stopId}.json`,
+        data: stopData
+      })
+    })
     //stop status change listener
     $(`#status-stop-${this.stopNum}`).on('change', () => {
       let status = $(`#status-stop-${this.stopNum}`).val();

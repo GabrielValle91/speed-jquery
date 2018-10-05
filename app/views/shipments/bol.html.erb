@@ -1,5 +1,98 @@
-<div class="border border-dark">
-  BOL PAGE<br>
-  <img src="http://spurfreight.com/wp-content/uploads/2017/08/super-freight-logo-001.png"><br>
-  test
+<%= stylesheet_link_tag    'application', media: 'all' %>
+<%= stylesheet_link_tag    'bol', media: 'all' %>
+<div class="twelve border border-dark">
+  <div class="row">
+    <div class="four">
+      <div class="row twelve border border-dark">
+        <img src="http://spurfreight.com/wp-content/uploads/2017/08/super-freight-logo-001.png" style="width: 365px; height: 183px; margin-left: 20px;">
+      </div>
+    </div>
+    <div class="eight">
+      <div class="row large border border-dark black-box twelve" style="height: 50px">
+        <div class="eleven">
+        </div>
+        <div class="one text-right">
+          <%= @shipment.id %>
+        </div>
+      </div>
+      <div class="row twelve border border-dark" style="height: 10px;">
+      </div>
+      <div class="row twelve border border-dark" style="height: 125px;">
+        <div class="six border border-dark">
+          <div class="twelve text-center black-box">
+            <div class="twelve" style="height: 30px">
+              Contact Us
+            </div>
+          </div>
+          <div class="twelve  text-center">
+            <div class="twelve">
+              <%= current_office.address1 %> <%= current_office.address2 %><br>
+              <%= current_office.city %>, <%= current_office.state %> <%= current_office.zip %><br>
+              Dispatch - P:
+              <br>
+              Warehouse - P:
+            </div>
+          </div>
+        </div>
+        <div class="six border border-dark">
+          <div class="twelve text-center black-box">
+            <div class="twelve" style="height: 30px">
+              Bill To
+            </div>
+          </div>
+          <div class="twelve text-center">
+            <div class="twelve">
+              Bill To: <%= @shipment.client.name %><br>
+              Reference: <%= @shipment.reference %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="twelve">
+    <div class="twelve border border-dark">
+      <% @shipment_stops.each do |shipment_stop| %>
+        <div class="row twelve black-box m-0">
+          <div class="twelve text-center">
+            Stop <%= shipment_stop.stop_number %>
+          </div>
+        </div>
+        <div class="row twelve m-0">
+          <div class="four">
+            <span style="font-size: 1.2em; font-weight: bold;">Location</span><br>
+            <%= shipment_stop.stop_start ? dateChanger(shipment_stop.stop_start) : " " %> <%= shipment_stop.stop_start_time ? timeChanger(shipment_stop.stop_start_time) : " " %> - <%= shipment_stop.stop_end_time ? timeChanger(shipment_stop.stop_end_time) : " " %><br>
+            <%= shipment_stop.location.company_name %><br>
+            <%= shipment_stop.location.address1 %> <%= shipment_stop.location.address2 %><br>
+            <%= shipment_stop.location.city %>, <%= shipment_stop.location.state %> <%= shipment_stop.location.zip %>
+          </div>
+          <div class="four">
+            <span style="font-size: 1.2em; font-weight: bold;">Items</span><br>
+            <% shipment_stop.shipment_stop_items.each do |shipment_stop_item| %>
+              <%= pluralize(shipment_stop_item.quantity, shipment_stop_item.item_type) %> - <%= shipment_stop_item.weight ? shipment_stop_item.weight : '0' %> lbs - <%= shipment_stop_item.description %><br>
+            <% end %>
+          </div>
+          <div class="four">
+            <span style="font-size: 1.2em; font-weight: bold;">Special Instructions</span><br>
+            <%= shipment_stop.stop_notes %>
+          </div>
+        </div>
+        <div class="row twelve m-0" style="height: 20px;">
+        </div>
+        <div class="row twelve m-0">
+          <div class="four">
+            <%= shipment_stop.stop_number == 1 ? "Shipper Signature: " : "Consignee Signature: " %>
+          </div>
+          <div class="two">
+            Driver Arrival:
+          </div>
+          <div class="two">
+            Driver Departure:
+          </div>
+        </div>
+        <div class="row twelve m-0" style="height: 10px;">
+        </div>
+      <% end %>
+    </div>
+  </div>
 </div>

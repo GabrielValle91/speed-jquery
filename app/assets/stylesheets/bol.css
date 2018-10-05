@@ -1,0 +1,62 @@
+.black-box {
+  background-color: black;
+  color: white;
+  font-weight: bold;
+}
+
+.dark-border {
+  border: 1px solid black;
+}
+
+.large {
+  font-size: 2em;
+}
+
+.one{
+  width: 8.33%;
+}
+
+.two{
+  width: 16.66%;
+}
+
+.three{
+  width: 25%;
+}
+
+.four{
+  width: 33.33%;
+}
+
+.five{
+  width: 41.66%;
+}
+
+.six{
+  width: 50%;
+}
+
+.seven{
+  width: 58.33%;
+}
+
+.eight{
+  width: 66.66%;
+}
+
+.nine{
+  width: 75%;
+}
+
+.ten{
+  width: 83.33%;
+}
+
+.eleven{
+  width: 91.66%;
+}
+
+.twelve{
+  width: 100%;
+}
+

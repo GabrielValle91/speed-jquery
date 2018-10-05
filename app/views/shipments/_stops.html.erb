@@ -82,6 +82,10 @@
         <input type="text" class="form-control form-control-sm" id="zip-stop-<%=shipment_stop.stop_number%>" value="<%= "#{shipment_stop.location.zip}" if shipment_stop.location_id %>">
       </div>
     </div>
+    <div class="row col-md-12">
+      Special Instructions<br>
+      <textarea class="form-control" aria-label="With textarea" id="notes-stop-<%=shipment_stop.stop_number%>"><%=shipment_stop.stop_notes%></textarea>
+    </div>
   </div>
   <div class="col-md-6">
     <div class="row col-md-12">

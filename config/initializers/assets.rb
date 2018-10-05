@@ -20,6 +20,7 @@ Rails.application.config.assets.precompile += %w( offices.js )
 Rails.application.config.assets.precompile += %w( users.js )
 Rails.application.config.assets.precompile += %w( shipment_stops.js )
 Rails.application.config.assets.precompile += %w( dispatch.css )
+Rails.application.config.assets.precompile += %w( bol.css )
 # Precompile additional assets.
 # application.js, application.css, and all non-JS/CSS in the app/assets
 # folder are already added.
