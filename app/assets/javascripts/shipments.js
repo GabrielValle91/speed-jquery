@@ -326,20 +326,6 @@ class ShipmentStop{
         data: stopData
       })
     })
-    //end date change listener
-    $(`#date-end-stop-${this.stopNum}`).on('change', () => {
-      let val = $(`#date-end-stop-${this.stopNum}`).val();
-      let stopData = {
-        shipment_stop: {
-          stop_end: val,
-        }
-      }
-      $.ajax({
-        type: 'PATCH',
-        url: `/shipment_stops/${this.stopId}.json`,
-        data: stopData
-      })
-    })
     //end time change listener
     $(`#date-end-time-stop-${this.stopNum}`).on('change', () => {
       let val = $(`#date-end-time-stop-${this.stopNum}`).val()

@@ -22,7 +22,7 @@ class ShipmentsController < ApplicationController
     @shipment.office = current_office
     @shipment.shipment_status = "Open"
     @shipment.save
-    shipment_stop = ShipmentStop.new(shipment_id: @shipment.id, office_id: current_office.id, stop_number: 1, stop_start: Date.today, stop_end: Date.today, stop_status: "Open")
+    shipment_stop = ShipmentStop.new(shipment_id: @shipment.id, office_id: current_office.id, stop_number: 1, stop_start: Date.today, stop_status: "Open")
     shipment_stop.save
     redirect_to edit_shipment_path(@shipment)
   end
@@ -32,15 +32,11 @@ class ShipmentsController < ApplicationController
   end
 
   def edit
-    # raise @shipment.inspect
     @shipment.office_id = current_user.offices.first.id
     if @shipment.shipment_stops.size == 0
       shipment_stop = ShipmentStop.new
       shipment_stop.stop_number = 1
       shipment_stop.stop_start = Date.today
-      # shipment_stop.stop_start_time = 08:00
-      shipment_stop.stop_end = Date.today
-      # shipment_stop.stop_end_time = 17:00
       shipment_stop.stop_status = "Open"
       shipment_stop.office_id = current_user.offices.first.id
       shipment_stop.shipment_id = @shipment.id
@@ -54,12 +50,6 @@ class ShipmentsController < ApplicationController
       end
     end
     @invoice_types = ["freight", "fuel", "special", "inside", "liftgate", "2Man", "hazmat", "residential", "debris", "detention", "attempt", "after hours", "extra stop", "trailer", "trailer drop"]
-    # @clients = []
-    # current_user.offices.each do |office|
-    #   office.clients.each do |client|
-    #     @clients << client.name
-    #   end
-    # end
   end
 
   def update
@@ -75,7 +65,6 @@ class ShipmentsController < ApplicationController
     @shipment_stop.stop_status = "Open"
     @shipment_stop.stop_number = @shipment.shipment_stops.last.stop_number + 1
     @shipment_stop.stop_start = Date.today
-    @shipment_stop.stop_end = Date.today
     @shipment_stop.save
     respond_to do |format|
       format.js
